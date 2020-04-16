@@ -100,6 +100,7 @@
     },
     "dependencies": {
         "ws": "^7.2.3",
-        "nodejs-base64-encode": "^1.1.0"
+        "nodejs-base64-encode": "^1.1.0",
+        "bower": "^1.8.8"
     }
 }
