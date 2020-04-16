@@ -100,7 +100,6 @@
     },
     "dependencies": {
         "ws": "^7.2.3",
-        "nodejs-base64-encode": "^1.1.0",
-        "@webcomponents/webcomponentsjs":"^2.4.3"
+        "nodejs-base64-encode": "^1.1.0"
     }
 }
