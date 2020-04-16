@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type":"object",
+    "additionalProperties": false,
+
+    "properties": {
+        "webSocketURL": {
+            "type":"string",
+            "description": "URL to the bhantombot YouTube Websocket, Include wss:// or ws://",
+            "default": "wss://link.to.websocket/ws/ytplayer"
+        },
+        "webauthToken": {
+            "type":"string",
+            "description": "the string of characters that is found in confic/botlogin.txt under ytauth",
+            "default": "Put auth token here"
+        }
+    }
+}
