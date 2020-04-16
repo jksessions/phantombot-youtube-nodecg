@@ -1,0 +1,106 @@
+{
+    "name": "phantombot-youtube-nodecg",
+    "version": "0.0.1",
+    "description": "Phantombot Youtube Implementation for nodecg",
+    "main": "index.js",
+    "author": {
+        "name": "JKSessions",
+        "email": "jksessions@jksessions.id.au",
+        "url": "http://jksessions.id.au/"
+    },
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/jksessions/phantombot-youtube-nodecg"
+    },
+    "nodecg": {
+        "compatibleRange": "^1.0.0",
+        "graphics": [
+            {
+                "file": "youtube.html",
+                "width": 1920,
+                "height": 1080,
+                "singleInstance": true
+            }
+        ],
+        "dashboardPanels": [
+            {
+                "name": "youtube-controls",
+                "title": "Youtube Controls",
+                "width": 2,
+                "file": "youtube-controls.html",
+                "headerColor": "#FF0000"
+            },
+            {
+                "name": "youtube-playlist",
+                "title": "Youtube Playlist",
+                "width": 4,
+                "file": "youtube-playlist.html",
+                "headerColor": "#FF0000"
+            },
+            {
+                "name": "youtube-queuelist",
+                "title": "Youtube Queue",
+                "width": 4,
+                "file": "youtube-queuelist.html",
+                "headerColor": "#FF0000"
+            },
+            {
+                "name": "add-song-to-playlist",
+                "title": "Add Song to Playlist",
+                "width": 2,
+                "dialog": true,
+                "dialogButtons": [
+                    {
+                        "name": "save",
+                        "type": "confirm"
+                    },
+                    {
+                        "name": "cancel",
+                        "type": "dismiss"
+                    }
+                ],
+                "file": "add-song-to-playlist.html"
+            },
+            {
+                "name": "add-song-to-queue",
+                "title": "Add Song to Queue",
+                "width": 2,
+                "dialog": true,
+                "dialogButtons": [
+                    {
+                        "name": "save",
+                        "type": "confirm"
+                    },
+                    {
+                        "name": "cancel",
+                        "type": "dismiss"
+                    }
+                ],
+                "file": "add-song-to-queue.html"
+            },
+            {
+                "name": "request-settings",
+                "title": "Request Settings",
+                "width": 3,
+                "dialog": true,
+                "dialogButtons": [
+                    {
+                        "name": "save",
+                        "type": "confirm"
+                    },
+                    {
+                        "name": "cancel",
+                        "type": "dismiss"
+                    }
+                ],
+                "file": "request-settings.html"
+            }
+        ]
+    },
+    "dependencies": {
+        "ws": "^7.2.3",
+        "nodejs-base64-encode": "^1.1.0",
+        "@webcomponents/webcomponentsjs":"^2.4.3"
+    }
+}

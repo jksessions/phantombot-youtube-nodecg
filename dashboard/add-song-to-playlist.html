@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../bower_components/paper-button/paper-button.html">
+</head>
+<body>
+    <style>
+        body {
+	        background-color: #2F3A4F;
+	        color: white;
+            margin: 0;
+            --primary-text-color: white;
+        };
+        paper-input.custom{
+            --paper-input-container-input: {
+                color: #ffffff
+            }
+        }
+    </style>
+    <paper-input class="custom" type="url" id="song-url" label="URL or Search Term"></paper-input>
+    <script>
+        document.addEventListener('dialog-confirmed', function() {
+            let song = document.getElementById('song-url').value
+            console.log(song);
+            if (song.length >0){
+                nodecg.sendMessage('youtubeCommand', {
+                    command: 'addSongToPlaylist',
+                    song: song
+                })
+            }
+            document.getElementById('song-url').value = null;
+        })
+        document.addEventListener('dialog-dismissed', function() {
+            document.getElementById('song-url').value = null;
+        })
+    </script>
+</body>

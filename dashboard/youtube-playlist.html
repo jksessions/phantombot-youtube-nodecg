@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<head>
+    <!-- Load Bootstrap 4.0 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <!-- Load Fontawesome 5.0.4 -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css">
+    <!-- Toast notifications v2.1.3 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css">
+</head>
+<body>
+    <div class="playlist-section">
+        <!-- Header with buttons -->
+        <div class="queue-section-title">Playlist <span id="playlist-name"></span>
+            <div class="btn-group btn-group-justified header-button">
+                <!-- Add song to playlist button -->
+                <button type="button" class="btn btn-secondary btn-sm" nodecg-dialog="add-song-to-playlist" data-toggle="tooltip" title="Add song">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <!-- Shuffle button -->
+                <button type="button" class="btn btn-secondary btn-sm" id="playlist-shuffle-button" data-toggle="tooltip" title="Shuffle songs">
+                    <i class="fas fa-random"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Devider -->
+        <div class="devider"></div>
+        <!-- Playlist section bottom panel -->
+        <div class="playlist-table" id="playlist-table-id">
+            <table id="playlist-table-content" style="width: 100%; overflow: scroll;">
+                <tbody id="playlist-content">
+                       <tr>
+                           <th style="width: 5%;">#</th>
+                           <th style="width: 70%;">Song</th>
+                           <th style="width: 15%;">Duration</th>
+                           <th style="width: 10%;">Actions</th>
+                       </tr>
+                   </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Load jQuery 3.3.0 -->
+    <script src="https://code.jquery.com/jquery-3.3.0.min.js"></script>
+    <!-- Load tether 1.4.0 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+    <!-- Load Bootstrap 4.0 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
+    <!-- Clusterize -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.js"></script>
+    <script>
+        const youtubePlaylist = nodecg.Replicant('youtubePlaylist');
+        var cluster = null;
+
+        // Playlist shuffle button.
+        $('#playlist-shuffle-button').on('click', () => {
+            nodecg.sendMessage('youtubeCommand', 'shufflePlaylist')
+        });
+
+        youtubePlaylist.on('change', (newValue, oldValue) => {
+            let table = [],
+                playlist = newValue.playlist;;
+
+            // Set the playlist name.
+            $('#playlist-name').html('(' + newValue.playlistname + ')');
+
+            // Table header.
+            table.push(($('<tr>').append($('<th/>', {
+                'style': 'width: 5%;',
+                'html': '#'
+            })).append($('<th/>', {
+                'style': 'width: 70%;',
+                'html': 'Song'
+            })).append($('<th/>', {
+                'style': 'width: 15%;',
+                'html': 'Duration'
+            })).append($('<th/>', {
+                'style': 'width: 10%; text-align: right; padding-right: 16px;',
+                'html': 'Actions'
+            }))).html());
+
+            for (let i = 0; i < playlist.length; i++) {
+                let row = $('<tr/>');
+
+                // Add position.
+                row.append($('<td/>', {
+                    'text': i,
+                    'style': 'width: 5%;'
+                }));
+
+                // Add song name.
+                row.append($('<td/>', {
+                    'text': playlist[i].title,
+                    'style': 'width: 70%;'
+                }));
+
+                // Add duration.
+                row.append($('<td/>', {
+                    'text': playlist[i].duration,
+                    'style': 'width: 15%;'
+                }));
+
+                // Add buttons.
+                row.append($('<td/>', {
+                    'html': $('<div/>', {
+                        'class': 'btn-group btn-group-justified header-button'
+                    }).append($('<button/>', {
+                        'type': 'button',
+                        'class': 'btn btn-secondary btn-sm',
+                        'data-toggle': 'tooltip',
+                        'title': 'Play song',
+                        'data-song': playlist[i].song,
+                        'data-song-play': 'on',
+                        'html': $('<i/>', {
+                            'class': 'fas fa-play'
+                        })
+                    })).append($('<button/>', {
+                        'type': 'button',
+                        'class': 'btn btn-secondary btn-sm',
+                        'data-toggle': 'tooltip',
+                        'title': 'Delete song',
+                        'data-song': playlist[i].song,
+                        'data-song-remove': 'on',
+                        'html': $('<i/>', {
+                            'class': 'fas fa-trash'
+                        })
+                    })),
+                    'style': 'width: 10%;'
+                }));
+
+                // Append the row.
+                table.push(row[0].outerHTML);
+            }
+
+            // Render the data.
+            if (cluster !== null) {
+                cluster.update(table);
+            } else {
+                cluster = new Clusterize({
+                    rows: table,
+                    scrollId: 'playlist-table-id',
+                    contentId: 'playlist-content',
+                    callbacks: {
+                        clusterChanged: () => {
+                            // Remove old events and register new ones.
+                            $('[data-song-play="on"]').off().on('click', (e) => {
+                                // Play the song.
+                                nodecg.sendMessage('youtubeCommand', {
+                                    command: 'updateSong',
+                                    song: $(e.currentTarget).data('song')
+                                })
+                                // Hide the tooltip.
+                                $(e.currentTarget).tooltip('hide');
+                            });
+
+                            // Remove old events and register new ones.
+                            $('[data-song-remove="on"]').off().on('click', (e) => {
+                                // Delete the song.
+                                nodecg.sendMessage('youtubeCommand', {
+                                    command: 'removeSongFromPlaylist',
+                                    song: $(e.currentTarget).data('song')
+                                })
+                                // Hide the tooltip.
+                                $(e.currentTarget).tooltip('hide');
+                                // Remove the row.
+                                $(e.currentTarget.closest('tr')).remove();
+                            });
+                        }
+                    }
+                });
+            }
+        })
+    </script>
+</body>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<head>
+    <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="../bower_components/paper-input/paper-input.html">
+    <link rel="import" href="../bower_components/paper-button/paper-button.html">
+</head>
+<body>
+    <div>
+        <paper-input type="text" id="DJName" label="DJ Name"></paper-input>
+        <paper-input type="number" id="maxSongs" min="1" size="50" label="Maximum Songs"></paper-input>
+        <paper-input type="number" id="maxDuration" min="1" size="50" label="Maximum Song Duration"></paper-input>
+        <paper-input type="number" id="voteCount" min="1" size="50" label="Vote Count"></paper-input>
+    </div>
+    <script>
+        document.addEventListener('dialog-opened', function() {
+            nodecg.sendMessage('youtubeCommand', {
+                command: 'dbQuery',
+                callback_id: 'yt_settings',
+                table: 'ytSettings'
+            }).then(result => {
+                document.getElementById('DJName').value = result.playlistDJname;
+                document.getElementById('maxSongs').value = result.songRequestsMaxParallel;
+                document.getElementById('maxDuration').value = result.songRequestsMaxSecondsforVideo;
+                document.getElementById('voteCount').value = result.voteCount;
+            }).catch(error => {
+                console.error(error);
+            });
+        });
+        
+        document.addEventListener('dialog-confirmed', function() {
+            let DJName = document.getElementById('DJName').value,
+                maxSongs = document.getElementById('maxSongs').value,
+                maxDuration = document.getElementById('maxDuration').value,
+                voteCount = document.getElementById('voteCount').value;
+
+            if (DJName.length > 0) {
+                nodecg.sendMessage('youtubeCommand', {
+                    command: 'dbUpdate',
+                    callback_id: 'dj_name_up',
+                    table: 'ytSettings',
+                    key: 'playlistDJname',
+                    value: String(DJName)
+                })
+            }
+
+            if (parseInt(maxSongs) > 0) {
+                nodecg.sendMessage('youtubeCommand', {
+                    command: 'dbUpdate',
+                    callback_id: 'max_song_up',
+                    table: 'ytSettings',
+                    key: 'songRequestsMaxParallel',
+                    value: String(maxSongs)
+                })
+            }
+            
+            if (parseInt(maxDuration) > 0) {
+                nodecg.sendMessage('youtubeCommand', {
+                    command: 'dbUpdate',
+                    callback_id: 'max_song_len_up',
+                    table: 'ytSettings',
+                    key: 'songRequestsMaxSecondsforVideo',
+                    value: String(maxDuration)
+                })
+            }
+
+            if (parseInt(voteCount) > 0) {
+                nodecg.sendMessage('youtubeCommand', {
+                    command: 'dbUpdate',
+                    callback_id: 'vote_count',
+                    table: 'ytSettings',
+                    key: 'voteCount',
+                    value: String(voteCount)
+                })
+            }
+
+
+            document.getElementById('DJName').value = null;
+            document.getElementById('maxSongs').value = null;
+            document.getElementById('maxDuration').value = null;
+            document.getElementById('voteCount').value = null;
+        })
+        document.addEventListener('dialog-dismissed', function() {
+            document.getElementById('DJName').value = null;
+            document.getElementById('maxSongs').value = null;
+            document.getElementById('maxDuration').value = null;
+            document.getElementById('voteCount').value = null;
+        })
+    </script>
+</body>
