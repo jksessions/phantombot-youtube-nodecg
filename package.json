@@ -99,7 +99,7 @@
         ]
     },
     "dependencies": {
-        "ws": "^7.2.3",
+        "ws": "^7.4.6",
         "nodejs-base64-encode": "^1.1.0"
     }
 }
