@@ -1,5 +1,5 @@
 <html>
-    <body style="margin: 0px;">
+    <body style="margin: 0px;" id="youtube">
         <div class="yt-frame" id="player"></div>
         <script>
             const youtubeCurrentSong = nodecg.Replicant('youtubeCurrentSong');
@@ -10,9 +10,10 @@
             const youtubeMute = nodecg.Replicant('youtubeMute');
             const youtubeDuration = nodecg.Replicant('youtubeDuration');
 
-            var playerReady = false;
-            var songId;
-            var initVol = 10;
+            var playerReady = false,
+                songId,
+                initVol = 10,
+                mainBody = document.getElementById("youtube");
             
 
             
@@ -72,8 +73,10 @@
                 if(playerReady === true){
                     if(newValue === 'play'){
                         player.playVideo();
+                        mainBody.style.display = "block";
                     } else if(newValue === 'pause'){
                         player.pauseVideo();
+                        mainBody.style.display = "none";
                     }
                 }
             })
