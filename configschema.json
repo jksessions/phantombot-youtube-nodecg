@@ -11,7 +11,7 @@
         },
         "webauthToken": {
             "type":"string",
-            "description": "the string of characters that is found in confic/botlogin.txt under ytauth",
+            "description": "the string of characters that is found in config/botlogin.txt under ytauth",
             "default": "Put auth token here"
         }
     }
