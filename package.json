@@ -11,7 +11,7 @@
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "git://github.com/jksessions/phantombot-youtube-nodecg"
+        "url": "https://github.com/jksessions/phantombot-youtube-nodecg"
     },
     "nodecg": {
         "compatibleRange": "^1.0.0",
