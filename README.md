@@ -28,7 +28,7 @@ Then your ready to start. Go the the install directory and run `nodecg start`.
 
 ## API Reference
 ### Replicants
-NodeCG has replicants. This bundle uses replicants in order to share data between files. Refer to the [NodeCG docs](https://nodecg.com/docs/what-is-nodecg).
+NodeCG has replicants. This bundle uses replicants in order to share data between files. Refer to the [NodeCG docs](https://nodecg.dev/docs/what-is-nodecg).
 
 The replicants open are: `youtubeSonglist`, `youtubePlaylist`, `youtubeCurrentSong`, `youtubePlayPause`, `youtubePlayState`, `youtubeVolume`, `youtubePlayerReady`, `youtubeMute` and `youtubeDuration`
 
