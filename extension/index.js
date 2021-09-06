@@ -366,6 +366,13 @@ module.exports = nodecg => {
                 return;
             }
 
+            //Keep Alive Ping
+            if (message.ping !== undefined) {
+                sendToSocket({
+                    pong: 'pong'
+                })
+            }
+
             if (message.query_id !== undefined) {
                 if (listeners[message.query_id] !== undefined) {
                     listeners[message.query_id](message);
