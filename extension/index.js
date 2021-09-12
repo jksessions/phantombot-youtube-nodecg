@@ -440,6 +440,8 @@ module.exports = nodecg => {
             player.deleteFromPlaylist();
         } else if(value === 'shufflePlaylist'){
             player.shufflePlaylist();
+        } else if(value.command === 'loadPlaylist'){
+            player.loadPlaylist(value.playlist);
         } else if(value.command === 'setVolume'){
             player.updateVolume(value.volume);
         } else if(value.command === 'updateSong'){

@@ -29,52 +29,60 @@
                 "title": "Youtube Controls",
                 "width": 2,
                 "file": "youtube-controls.html",
-                "headerColor": "#FF0000"
+                "headerColor": "#FF0000",
+                "workspace": "My Workspace"
             },
             {
                 "name": "youtube-playlist",
                 "title": "Youtube Playlist",
                 "width": 4,
                 "file": "youtube-playlist.html",
-                "headerColor": "#FF0000"
+                "headerColor": "#FF0000",
+                "workspace": "My Workspace"
             },
             {
                 "name": "youtube-queuelist",
                 "title": "Youtube Queue",
-                "width": 4,
+                "width": 3,
                 "file": "youtube-queuelist.html",
-                "headerColor": "#FF0000"
+                "headerColor": "#FF0000",
+                "workspace": "My Workspace"
             },
             {
                 "name": "add-song-to-playlist",
                 "title": "Add Song to Playlist",
-                "width": 2,
+                "width": 3,
                 "dialog": true,
                 "dialogButtons": [
                     {
                         "name": "save",
                         "type": "confirm"
-                    },
-                    {
-                        "name": "cancel",
-                        "type": "dismiss"
                     }
                 ],
                 "file": "add-song-to-playlist.html"
             },
             {
-                "name": "add-song-to-queue",
-                "title": "Add Song to Queue",
-                "width": 2,
+                "name": "change-playlist",
+                "title": "Change Playlist",
+                "width": 3,
                 "dialog": true,
                 "dialogButtons": [
                     {
                         "name": "save",
                         "type": "confirm"
-                    },
+                    }
+                ],
+                "file": "change-playlist.html"
+            },
+            {
+                "name": "add-song-to-queue",
+                "title": "Add Song to Queue",
+                "width": 4,
+                "dialog": true,
+                "dialogButtons": [
                     {
-                        "name": "cancel",
-                        "type": "dismiss"
+                        "name": "save",
+                        "type": "confirm"
                     }
                 ],
                 "file": "add-song-to-queue.html"
@@ -88,10 +96,6 @@
                     {
                         "name": "save",
                         "type": "confirm"
-                    },
-                    {
-                        "name": "cancel",
-                        "type": "dismiss"
                     }
                 ],
                 "file": "request-settings.html"
