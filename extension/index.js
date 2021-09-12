@@ -1,6 +1,5 @@
 // load required dependencies
 const WebSocket = require('ws');
-const base64 = require('nodejs-base64-encode');
 
 module.exports = nodecg => {
     const ws = new WebSocket(nodecg.bundleConfig.webSocketURL);
