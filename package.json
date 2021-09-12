@@ -77,7 +77,7 @@
             {
                 "name": "add-song-to-queue",
                 "title": "Add Song to Queue",
-                "width": 4,
+                "width": 3,
                 "dialog": true,
                 "dialogButtons": [
                     {
