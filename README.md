@@ -5,8 +5,6 @@
 To install the bundle, you must have first installed [NodeJS and npm](https://nodejs.org/en/).
 Also make sure [Git](http://git-scm.com/) is installed
 
-Install bower by `npm install -g bower`
-
 Create an install directory for NodeCG. on linux: `mkdir nodecg`
 
 Install the NodeCG cli `npm install -g nodecg-cli`
