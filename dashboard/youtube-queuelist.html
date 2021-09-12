@@ -100,15 +100,9 @@
                         }),
                         'click': (e) => {
                             // Jump to the song.
-                            nodecg.sendMessage('youtubeCommand', {
-                                command: 'updateSong',
-                                song: $(e.currentTarget).data('song')
-                            });
+                            nodecg.sendMessage('updateSong', $(e.currentTarget).data('song'));
                             // The song once jumped to it.
-                            nodecg.sendMessage('youtubeCommand', {
-                                command: 'removeSongFromRequest',
-                                song: $(e.currentTarget).data('song')
-                            })
+                            nodecg.sendMessage('removeSongFromRequest', $(e.currentTarget).data('song'));
                             // Hide the tooltip, or could stay opened.
                             $(e.currentTarget).tooltip('hide');
                         }
@@ -123,10 +117,7 @@
                         }),
                         'click': (e) => {
                             // Delete song.
-                            nodecg.sendMessage('youtubeCommand', {
-                                command: 'removeSongFromRequest',
-                                song: $(e.currentTarget).data('song')
-                            })
+                            nodecg.sendMessage('removeSongFromRequest', $(e.currentTarget).data('song'));
                             // Hide the tooltip, or could stay opened.
                             $(e.currentTarget).tooltip('hide');
                         }

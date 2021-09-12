@@ -118,17 +118,17 @@
 
             // Skip song button.
             $('#skip-button').on('click', () => {
-                nodecg.sendMessage('youtubeCommand', 'skipSong')
+                nodecg.sendMessage('skipSong')
             });
 
             // Fav button to steal a song.
             $('#fav-button').on('click', () => {
-                nodecg.sendMessage('youtubeCommand', 'stealSong')
+                nodecg.sendMessage('stealSong')
             });
 
             // Delete current song from playlist button.
             $('#del-cur-playlist-button').on('click', () => {
-                nodecg.sendMessage('youtubeCommand', 'unstealSong')
+                nodecg.sendMessage('unstealSong')
             });
 
             // Mute button.
@@ -166,11 +166,8 @@
             }).on('slideStop', (e) => {
                 youtubeVolume.value = e.value;
                 volume = e.value;
-                nodecg.sendMessage('youtubeCommand', {
-                    command: 'setVolume',
-                    volume: e.value
-                })
-                volumeSliding = false
+                nodecg.sendMessage('setVolume', e.value);
+                volumeSliding = false;
                 $('#volume-slider-value').html(e.value + '%');
 
                 $('#mute-button-icon').attr('class', (volume === 0 ? 'fas fa-volume-off' : (volume > 50 ? 'fas fa-volume-up' : 'fas fa-volume-down')));

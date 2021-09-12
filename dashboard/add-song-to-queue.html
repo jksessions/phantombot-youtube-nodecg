@@ -7,10 +7,7 @@
             let song = document.getElementById('song-url').value
             console.log(song);
             if (song.length >0){
-                nodecg.sendMessage('youtubeCommand', {
-                    command: 'addSongToQueue',
-                    song: song
-                })
+                nodecg.sendMessage('addSongToQueue', song);
             }
             document.getElementById('song-url').value = null;
         })

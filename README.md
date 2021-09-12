@@ -125,6 +125,8 @@ returns the following
 `max` is the amount of time (seconds) that the track plays for.
 
 ### Messages
+##### Messages are getting a major rework and will not work as documented
+
 The bundle also uses NodeCG's `sendMessage()` function in order to forward data onto the websocket.
 
 Currently, the bundle listens for messages on the `youtubeCommand` there are multiple different messages.

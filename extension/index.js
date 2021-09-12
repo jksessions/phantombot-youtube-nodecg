@@ -50,7 +50,7 @@ module.exports = nodecg => {
      *
      * @param {String} callback_id
      */
-    player.requestPlaylist = (callback_id) => {
+    player.requestPlaylist = (_callback_id) => {
         // Request the data.
         sendToSocket({
             query: 'playlist'
@@ -62,7 +62,7 @@ module.exports = nodecg => {
      *
      * @param {String} callback_id
      */
-    player.requestRequestList = (callback_id) => {
+    player.requestRequestList = (_callback_id) => {
         // Request the data.
         sendToSocket({
             query: 'songlist'
@@ -313,7 +313,7 @@ module.exports = nodecg => {
     });
 
     // Add a listener for the pause event.
-    player.addListener('pause', (e) => {
+    player.addListener('pause', (_e) => {
         if(youtubePlayPause.value === 'play'){
             youtubePlayPause.value = 'pause';
         } else if(youtubePlayPause.value === 'pause'){
@@ -414,7 +414,7 @@ module.exports = nodecg => {
     })
     
     // check if youtube player is ready
-    youtubePlayerReady.on('change', (newValue, oldValue) => {
+    youtubePlayerReady.on('change', (newValue, _oldValue) => {
         if(webSocket == true){
             if(newValue == true) {
                 player.ready();
@@ -424,45 +424,97 @@ module.exports = nodecg => {
     })
 
     // let phantombot know of the current state of the youtube player
-    youtubePlayState.on('change', (newValue, oldValue) => {
+    youtubePlayState.on('change', (newValue, _oldValue) => {
         if(webSocket === true){
             player.updateState(newValue);
         }
     })
 
-    // listen for commands from the dashboard
-    nodecg.listenFor('youtubeCommand', (value, ack) => {
-        if(value === 'skipSong'){
-            player.skipSong();
-        } else if(value === 'stealSong'){
-            player.addSongToPlaylist();
-        } else if(value === 'unstealSong'){
-            player.deleteFromPlaylist();
-        } else if(value === 'shufflePlaylist'){
-            player.shufflePlaylist();
-        } else if(value.command === 'loadPlaylist'){
-            player.loadPlaylist(value.playlist);
-        } else if(value.command === 'setVolume'){
-            player.updateVolume(value.volume);
-        } else if(value.command === 'updateSong'){
-            player.updateSong(value.song);
-        } else if(value.command === 'removeSongFromPlaylist'){
-            player.removeSongFromPlaylist(value.song);
-        } else if(value.command === 'addSongToPlaylist'){
-            player.addSongToPlaylist(value.song);
-        } else if(value.command === 'removeSongFromRequest'){
-            player.removeSongFromRequest(value.song);
-        } else if(value.command === 'addSongToQueue'){
-            player.requestSong(value.song);
-        } else if(value.command === 'dbQuery'){
-            player.dbQuery(value.callback_id, value.table, (e) => {
-                if (ack && !ack.handled) {
-                    ack(null, e);
-                }
-            })
-        } else if(value.command === 'dbUpdate'){
-            player.dbUpdate(value.callback_id, value.table, value.key, value.value);
-        }
+    // listen for skipSong command
+    nodecg.listenFor('skipSong', (_value, _ack) => {
+        player.skipSong();
+    })
+
+    // listen for stealSong command
+    nodecg.listenFor('stealSong', (_value, _ack) => {
+        player.addSongToPlaylist();
+    })
+
+    // listen for unstealSong command
+    nodecg.listenFor('unstealSong', (_value, _ack) => {
+        player.deleteFromPlaylist();
+    })
+
+    // listen for shufflePlaylist command
+    nodecg.listenFor('shufflePlaylist', (_value, _ack) => {
+        player.shufflePlaylist();
+    })
+
+    // listen for loadPlaylist command
+    nodecg.listenFor('loadPlaylist', (value, _ack) => {
+        player.loadPlaylist(value);
+    })
+
+    // listen for setVolume command
+    nodecg.listenFor('setVolume', (value, _ack) => {
+        player.updateVolume(value);
+    })
+
+    // listen for updateSong command
+    nodecg.listenFor('updateSong', (value, _ack) => {
+        player.updateSong(value);
+    })
+
+    // listen for removeSongFromPlaylist command
+    nodecg.listenFor('removeSongFromPlaylist', (value, _ack) => {
+        player.removeSongFromPlaylist(value);
+    })
+
+    // listen for addSongToPlaylist command
+    nodecg.listenFor('addSongToPlaylist', (value, _ack) => {
+        player.addSongToPlaylist(value);
+    })
+
+    // listen for removeSongFromRequest command
+    nodecg.listenFor('removeSongFromRequest', (value, _ack) => {
+        player.removeSongFromRequest(value);
+    })
+
+    // listen for addSongToQueue command
+    nodecg.listenFor('addSongToQueue', (value, _ack) => {
+        player.requestSong(value);
+    })
+
+    // listen for ytSettings command
+    nodecg.listenFor('ytSettings', (_value, ack) => {
+        player.dbQuery('yt_settings', 'ytSettings', (e) => {
+            if (ack && !ack.handled) {
+                ack(null, e);
+            }
+        })
+    })
+
+    // listen for getPlaylists command
+    nodecg.listenFor('getPlaylists', (_value, ack) => {
+        player.dbQuery('get_playlists', 'yt_playlists_registry', (e) => {
+            if (ack && !ack.handled) {
+                ack(null, e);
+            }
+        })
+    })
+
+    // listen for dbQuery command
+    nodecg.listenFor('dbQuery', (value, ack) => {
+        player.dbQuery(value.callback_id, value.table, (e) => {
+            if (ack && !ack.handled) {
+                ack(null, e);
+            }
+        })
+    })
+
+    // listen for dbUpdate command
+    nodecg.listenFor('dbUpdate', (value, ack) => {
+        player.dbUpdate(value.callback_id, value.table, value.key, value.value);
     })
 
     var timerID = 0; 

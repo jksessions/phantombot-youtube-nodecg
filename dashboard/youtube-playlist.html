@@ -58,7 +58,7 @@
 
         // Playlist shuffle button.
         $('#playlist-shuffle-button').on('click', () => {
-            nodecg.sendMessage('youtubeCommand', 'shufflePlaylist')
+            nodecg.sendMessage('shufflePlaylist')
         });
 
         youtubePlaylist.on('change', (newValue, oldValue) => {
@@ -149,10 +149,7 @@
                             // Remove old events and register new ones.
                             $('[data-song-play="on"]').off().on('click', (e) => {
                                 // Play the song.
-                                nodecg.sendMessage('youtubeCommand', {
-                                    command: 'updateSong',
-                                    song: $(e.currentTarget).data('song')
-                                })
+                                nodecg.sendMessage('updateSong', $(e.currentTarget).data('song'));
                                 // Hide the tooltip.
                                 $(e.currentTarget).tooltip('hide');
                             });
@@ -160,10 +157,7 @@
                             // Remove old events and register new ones.
                             $('[data-song-remove="on"]').off().on('click', (e) => {
                                 // Delete the song.
-                                nodecg.sendMessage('youtubeCommand', {
-                                    command: 'removeSongFromPlaylist',
-                                    song: $(e.currentTarget).data('song')
-                                })
+                                nodecg.sendMessage('removeSongFromPlaylist', $(e.currentTarget).data('song'));
                                 // Hide the tooltip.
                                 $(e.currentTarget).tooltip('hide');
                                 // Remove the row.

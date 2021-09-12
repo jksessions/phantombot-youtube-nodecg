@@ -15,11 +15,7 @@
         'use strict';
 
         document.addEventListener('dialog-opened', function() {
-            nodecg.sendMessage('youtubeCommand', {
-                command: 'dbQuery',
-                callback_id: 'yt_settings',
-                table: 'ytSettings'
-            }).then(result => {
+            nodecg.sendMessage('ytSettings').then(result => {
                 document.getElementById('DJName').value = result.playlistDJname;
                 document.getElementById('maxSongs').value = result.songRequestsMaxParallel;
                 document.getElementById('maxDuration').value = result.songRequestsMaxSecondsforVideo;
@@ -36,8 +32,7 @@
                 voteCount = document.getElementById('voteCount').value;
 
             if (DJName.length > 0) {
-                nodecg.sendMessage('youtubeCommand', {
-                    command: 'dbUpdate',
+                nodecg.sendMessage('dbUpdate', {
                     callback_id: 'dj_name_up',
                     table: 'ytSettings',
                     key: 'playlistDJname',
@@ -46,8 +41,7 @@
             }
 
             if (parseInt(maxSongs) > 0) {
-                nodecg.sendMessage('youtubeCommand', {
-                    command: 'dbUpdate',
+                nodecg.sendMessage('dbUpdate', {
                     callback_id: 'max_song_up',
                     table: 'ytSettings',
                     key: 'songRequestsMaxParallel',
@@ -56,8 +50,7 @@
             }
             
             if (parseInt(maxDuration) > 0) {
-                nodecg.sendMessage('youtubeCommand', {
-                    command: 'dbUpdate',
+                nodecg.sendMessage('dbUpdate', {
                     callback_id: 'max_song_len_up',
                     table: 'ytSettings',
                     key: 'songRequestsMaxSecondsforVideo',
@@ -66,8 +59,7 @@
             }
 
             if (parseInt(voteCount) > 0) {
-                nodecg.sendMessage('youtubeCommand', {
-                    command: 'dbUpdate',
+                nodecg.sendMessage('dbUpdate', {
                     callback_id: 'vote_count',
                     table: 'ytSettings',
                     key: 'voteCount',
