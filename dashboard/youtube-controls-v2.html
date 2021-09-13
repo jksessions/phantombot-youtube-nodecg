@@ -1,191 +1,54 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
-        <link rel="import" href="../bower_components/paper-input/paper-input.html">
-        <link rel="import" href="../bower_components/paper-button/paper-button.html">
-        <link rel="import" href="../bower_components/paper-slider/paper-slider.html">
-    </head>
-    <body>
-        <div class="play-pause-button" style="text-align: center;">
-            <div class="btn-group">
-                <paper-button id="pause-button" title="Play Song">
-                </paper-button>
-                <button type="button" class="btn btn-secondary" id="skip-button" data-toggle="tooltip" title="Skip Song">
-                    <i class="fas fa-fast-forward"></i>
-                </button>
-                <button type="button" class="btn btn-secondary" id="fav-button" data-toggle="tooltip" title="Add to playlist (steal song)">
-                    <i class="fas fa-star"></i>
-                </button>
-                <button type="button" class="btn btn-secondary" id="del-cur-playlist-button" data-toggle="tooltip" title="Delete from playlist">
-                    <i class="fas fa-trash"></i>
-                </button>
-                <button type="button" class="btn btn-secondary" id="mute-button" data-toggle="tooltip" title="Mute song">
-                    <i class="fas fa-volume-down" id="mute-button-icon"></i>
-                </button>
-            </div>
-        </div>
-        <div class="volume" >
-            <div class="volume-slider" style="text-align: center; padding-top: 10px;">
-                <input type="range" id="volume-slider" name="Volume" min="0" max="100">
-                <!-- Volume slider value -->
-                <span id="volume-slider-value">0%</span>
-            </div>
-        </div>
-        <!-- Progress slider -->
-        <div class="progress-slider">
-            <input type="text" id="progress-slider" />
-            <!-- Progress slider value -->
-            <span id="progress-slider-value">0:00</span>
-        </div>
-        <div class="video-information">
-            <p><b>Title:</b> <span id="video-title"></span></p>
-            <p><b>URL:</b> <span id="video-url"></span></p>
-            <p><b>Requested by:</b> <span id="user-requester"></span></p>
-        </div>
-        <!-- Load jQuery 3.3.0 -->
-        <script src="https://code.jquery.com/jquery-3.3.0.min.js"></script>
-        <!-- Load tether 1.4.0 -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
-        <!-- Load Bootstrap 4.0 -->
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script>
-        <!-- Bootstrap sliders 10.0.0 -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
-        <!-- Clusterize -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/clusterize.js/0.18.0/clusterize.min.js"></script>
-        
-        <script>
-            const youtubePlayPause = nodecg.Replicant('youtubePlayPause');
-            const youtubeVolume = nodecg.Replicant('youtubeVolume');
-            const youtubeMute = nodecg.Replicant('youtubeMute');
-            const youtubeCurrentSong = nodecg.Replicant('youtubeCurrentSong');
-            const youtubeDuration = nodecg.Replicant('youtubeDuration');
-            var playPause = 'pause';
-            var volume = 10;
-            var mute = false;
-            var player = {};
-            var volumeSliding = false;
-            
-            player.canSlide = true;
 
-            youtubePlayPause.on('change', (newValue, oldValue) => {
-                if(newValue === 'play'){
-                    playPause = 'play',
-                    $('#play-pause-button').attr('class', 'fas fa-pause');
-                } else if(newValue === 'pause'){
-                    playPause = 'pause'
-                    $('#play-pause-button').attr('class', 'fas fa-play')
-                }
-            })
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="css/youtube-controls-v2.css" />
+	<script src="./js/modules.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css">
+</head>
 
-            youtubeVolume.on('change', (newValue, oldValue) => {
-                volume = newValue;
+<body>
+	<div id="main" class="buttonDiv">
+		<paper-button toggle raised class="toggle" id="toggleStream" onClick="toggleStream()">
+            <i class="fas fa-play" id="play-pause-button"></i>
+        </paper-button>
+		<paper-button toggle raised class="toggle" id="toggleStream" onClick="toggleStream()">
+            <i class="fas fa-fast-forward"></i>
+        </paper-button>
+		<paper-button toggle raised class="toggle" id="toggleStream" onClick="toggleStream()">
+            <i class="fas fa-star"></i>
+        </paper-button>
+		<paper-button toggle raised class="toggle" id="toggleStream" onClick="toggleStream()">
+            <i class="fas fa-trash"></i>
+        </paper-button>
+		<paper-button toggle raised class="toggle" id="toggleStream" onClick="toggleStream()">
+            <i class="fas fa-volume-down" id="mute-button-icon"></i>
+        </paper-button>
+	</div>
+    <custom-style>
+		<style>
+			paper-button {
+				background-color: #6441a5;
+				--paper-button-ink-color: #6A6A6A;
+			}
 
-                if(!volumeSliding){
-                    $('#volume-slider').slider('setValue', volume);
-                }
-                
-                $('#volume-slider-value').html(newValue + '%');
+			paper-button.toggle:hover {
+				background-color: #383838;
+			}
 
-                $('#mute-button-icon').attr('class', (volume === 0 ? 'fas fa-volume-off' : (volume > 50 ? 'fas fa-volume-up' : 'fas fa-volume-down')));
+			paper-button.toggle[active] {
+				background-color: #990000;
+			}
 
-                
-            })
+			paper-button.toggle[disabled] {
+				background-color: #485264;
+			}
+		</style>
+	</custom-style>
+</body>
 
-            youtubeCurrentSong.on('change', (newValue, oldValue) => {
-                // Update title information.
-                $('#video-title').html(newValue.title);
-                $('#video-url').html('<a href="https://youtu.be/' + newValue.id + '" target="_blank">https://youtu.be/' + newValue.id + '</a>');
-                $('#user-requester').html(newValue.user);
-                $('#progress-slider-value').html(newValue.duration);
-            })
-
-            youtubeDuration.on('change', (newValue, oldValue) => {
-                if(player.canSlide){
-                    $('#progress-slider').slider('setAttribute', 'max', newValue.max);
-                    $('#progress-slider').slider('setValue', newValue.current);
-                }
-            })
-            
-            // Pause button.
-            $('#pause-button').on('click', () => {
-                if (playPause === 'play') {
-                    youtubePlayPause.value = 'pause';
-                } else if (playPause === 'pause') {
-                    youtubePlayPause.value = 'play';
-                }
-            });
-
-            // Skip song button.
-            $('#skip-button').on('click', () => {
-                nodecg.sendMessage('skipSong')
-            });
-
-            // Fav button to steal a song.
-            $('#fav-button').on('click', () => {
-                nodecg.sendMessage('stealSong')
-            });
-
-            // Delete current song from playlist button.
-            $('#del-cur-playlist-button').on('click', () => {
-                nodecg.sendMessage('unstealSong')
-            });
-
-            // Mute button.
-            $('#mute-button').on('click', () => {
-                if (mute === true) {
-                    mute = false;
-                    youtubeMute.value = false;
-                    $('#mute-button-icon').attr('class', (volume === 0 ? 'fas fa-volume-off' : (volume > 50 ? 'fas fa-volume-up' : 'fas fa-volume-down')));
-                } else if (mute === false) {
-                    mute = true;
-                    youtubeMute.value = true;
-                    $('#mute-button-icon').attr('class', 'fas fa-volume-off');
-                }
-            });
-
-            $('#volume-slider').slider({
-                'value': volume,
-                'min': 0,
-                'max': 100,
-                'step': 1,
-                'tooltip': 'hide'
-            }).on('slide', (e) => {
-                if(mute){
-                    mute = false;
-                    youtubeMute.value = false;
-                }
-
-                volumeSliding = true;
-                youtubeVolume.value = e.value;
-                volume = e.value;
-
-                $('#volume-slider-value').html(e.value + '%');
-
-                $('#mute-button-icon').attr('class', (volume === 0 ? 'fas fa-volume-off' : (volume > 50 ? 'fas fa-volume-up' : 'fas fa-volume-down')));
-            }).on('slideStop', (e) => {
-                youtubeVolume.value = e.value;
-                volume = e.value;
-                nodecg.sendMessage('setVolume', e.value);
-                volumeSliding = false;
-                $('#volume-slider-value').html(e.value + '%');
-
-                $('#mute-button-icon').attr('class', (volume === 0 ? 'fas fa-volume-off' : (volume > 50 ? 'fas fa-volume-up' : 'fas fa-volume-down')));
-            })
-
-            $('#progress-slider').slider({
-                'value': 0,
-                'min': 0,
-                'step': 0.1,
-                'tooltip': 'hide',
-                'selection': 'none'
-            }).on('slide', (e) => {
-                nodecg.sendMessage('youtubeSeek', e.value);
-            }).on('slideStart', () => {
-                player.canSlide = false;
-            }).on('slideStop', () => {
-                player.canSlide = true;
-            });
-        </script>
-    </body>
 </html>
