@@ -334,10 +334,16 @@ module.exports = nodecg => {
         keepAlive();
         webSocket = true;
     });
-    
+
     ws.on('message', function incoming(data) {
         try {
             let message = JSON.parse(data);
+
+            // Send pong regardless of authentication
+            if (message.ping !== undefined) {
+                ws.send("{ pong: 'pong' }")
+                return;
+            }
 
             // Check this message here before doing anything else.
             if (message.secondconnection !== undefined) {
@@ -363,13 +369,6 @@ module.exports = nodecg => {
                     nodecg.log.error("Missing YouTube API Key.");
                 }
                 return;
-            }
-
-            //Keep Alive Ping
-            if (message.ping !== undefined) {
-                sendToSocket({
-                    pong: 'pong'
-                })
             }
 
             if (message.query_id !== undefined) {
