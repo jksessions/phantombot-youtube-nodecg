@@ -1,10 +1,10 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
 const nodecg = nodecgApiContext.get();
-import * as WebSocket from 'ws';
+import WebSocket from 'ws';
 
 const websocket = nodecg.Replicant<boolean>('websocket');
 
-var listeners = [],
+var listeners: any = [],
     websocketAddress = nodecg.bundleConfig.webSocketURL,
     authToken = nodecg.bundleConfig.webauthToken,
     ws = new WebSocket(websocketAddress);
@@ -13,7 +13,7 @@ function sendToSocket(data: JSON) {
     if(websocket.value == true) {
         try {
             ws.send(JSON.stringify(data));
-        } catch (ex) {
+        } catch (ex: any) {
             nodecg.log.error('Failed to send message to socket: ' + ex.message);
         }
     }
@@ -99,7 +99,7 @@ ws.on('message', function incoming(data: string) {
                 }
             }
         }
-    } catch (ex) {
+    } catch (ex: any) {
         nodecg.log.error('Failed to parse message from socket: ' + ex.message);
     }
 })
