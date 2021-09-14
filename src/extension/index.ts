@@ -5,6 +5,8 @@ import * as nodecgApiContext from './util/nodecg-api-context';
 
 async function init(): Promise<void> {
     require('./replicants');
+    require('./websocket');
+    require('./youtube');
 }
 
 module.exports = (nodecg: NodeCG): void => {

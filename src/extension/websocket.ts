@@ -9,7 +9,7 @@ var listeners: any = [],
     authToken = nodecg.bundleConfig.webauthToken,
     ws = new WebSocket(websocketAddress);
 
-function sendToSocket(data: JSON) {
+export function sendToSocket(data: any) {
     if(websocket.value == true) {
         try {
             ws.send(JSON.stringify(data));
@@ -19,7 +19,7 @@ function sendToSocket(data: JSON) {
     }
 }
 
-function addListener(listener_id: any, listener: any) {
+export function addListener(listener_id: any, listener: any) {
     listeners[listener_id] = listener;
 };
 

@@ -105,3 +105,8 @@ dist
 
 # VSCode local files
 .vscode/
+
+/graphics
+/dashboard
+/extension
+/Reference.pur
