@@ -110,3 +110,5 @@ dist
 /dashboard
 /extension
 /Reference.pur
+
+.parcel-cache/
