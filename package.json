@@ -2,7 +2,6 @@
     "name": "phantombot-youtube-nodecg",
     "version": "0.0.1",
     "description": "Phantombot Youtube Implementation for nodecg",
-    "main": "index.js",
     "author": {
         "name": "JKSessions",
         "email": "jksessions@jksessions.id.au",
@@ -27,96 +26,20 @@
             {
                 "name": "youtube-controls",
                 "title": "Youtube Controls",
-                "width": 2,
+                "width": 3,
                 "file": "youtube-controls.html",
                 "headerColor": "#FF0000",
                 "workspace": "My Workspace"
-            },
-            {
-                "name": "youtube-controls-v2",
-                "title": "Youtube Controls",
-                "width": 4,
-                "file": "youtube-controls-v2.html",
-                "headerColor": "#FF0000",
-                "workspace": "My Workspace"
-            },
-            {
-                "name": "youtube-playlist",
-                "title": "Youtube Playlist",
-                "width": 4,
-                "file": "youtube-playlist.html",
-                "headerColor": "#FF0000",
-                "workspace": "My Workspace"
-            },
-            {
-                "name": "youtube-queuelist",
-                "title": "Youtube Queue",
-                "width": 3,
-                "file": "youtube-queuelist.html",
-                "headerColor": "#FF0000",
-                "workspace": "My Workspace"
-            },
-            {
-                "name": "add-song-to-playlist",
-                "title": "Add Song to Playlist",
-                "width": 3,
-                "dialog": true,
-                "dialogButtons": [
-                    {
-                        "name": "save",
-                        "type": "confirm"
-                    }
-                ],
-                "file": "add-song-to-playlist.html"
-            },
-            {
-                "name": "change-playlist",
-                "title": "Change Playlist",
-                "width": 3,
-                "dialog": true,
-                "dialogButtons": [
-                    {
-                        "name": "save",
-                        "type": "confirm"
-                    }
-                ],
-                "file": "change-playlist.html"
-            },
-            {
-                "name": "add-song-to-queue",
-                "title": "Add Song to Queue",
-                "width": 3,
-                "dialog": true,
-                "dialogButtons": [
-                    {
-                        "name": "save",
-                        "type": "confirm"
-                    }
-                ],
-                "file": "add-song-to-queue.html"
-            },
-            {
-                "name": "request-settings",
-                "title": "Request Settings",
-                "width": 3,
-                "dialog": true,
-                "dialogButtons": [
-                    {
-                        "name": "save",
-                        "type": "confirm"
-                    }
-                ],
-                "file": "request-settings.html"
             }
         ]
     },
     "scripts": {
         "build": "npm run build:extension && npm run build:dashboard",
         "build:extension": "trash extension && tsc -b ./src/extension/tsconfig.json",
-        "build:dashboard": "trash dashboard && parcel build src/dashboard/*.html --out-dir dashboard --public-url ./ --no-content-hash",
-        "build:graphics": "trash graphics && parcel build src/graphics/*.html --out-dir graphics --public-url ./ --no-content-hash",
-        "watch:dashboard": "trash dashboard && parcel watch src/dashboard/*.html --out-dir dashboard --public-url ./",
-        "watch:graphics": "trash graphics && parcel watch src/graphics/*.html --out-dir graphics --public-url ./",
+        "build:dashboard": "trash dashboard && parcel build src/dashboard/*.html --dist-dir dashboard --public-url ./ --no-content-hash",
+        "build:graphics": "trash graphics && parcel build src/graphics/*.html --dist-dir graphics --public-url ./ --no-content-hash",
+        "watch:dashboard": "trash dashboard && parcel watch src/dashboard/*.html --dist-dir dashboard --public-url ./",
+        "watch:graphics": "trash graphics && parcel watch src/graphics/*.html --dist-dir graphics --public-url ./",
         "watch:extension": "tsc -b ./src/extension/tsconfig.json --watch",
         "schema-types": "trash src/types/schemas && nodecg schema-types",
         "start:solo": "node ../.. --bundlesEnabled=nodecg-csgo-manager",
@@ -125,17 +48,15 @@
         "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix"
     },
     "dependencies": {
-        "@material-ui/core": "^4.11.3",
-        "@material-ui/icons": "^4.11.2",
+        "@mui/material": "^5.0.0",
+        "@mui/icons-material": "^5.0.0",
+        "@material-ui/styles": "4.11.4",
         "@material-ui/lab": "^4.0.0-alpha.57",
         "big-integer": "^1.6.48",
-        "gsap": "^3.6.0",
-        "hltv": "^2.23.0",
         "lodash": "^4.17.20",
         "lodash.clone": "^4.5.0",
         "node-fetch": "^2.6.1",
         "nodecg": "^1.7.4",
-        "parcel": "^1.12.4",
         "react": "^17.0.2",
         "react-beautiful-dnd": "^13.0.0",
         "react-dom": "^17.0.1",
@@ -144,7 +65,10 @@
         "typeface-roboto": "1.1.13",
         "typescript": "^4.1.4",
         "uuid": "^8.3.2",
-        "ws": "^7.4.3"
+        "ws": "^7.4.3",
+        "parcel": "^2.0.0-rc.0",
+        "@emotion/styled": "^11.3.0",
+        "@emotion/react": "^11.4.1"
     },
     "devDependencies": {
         "@types/deep-equal": "^1.0.1",

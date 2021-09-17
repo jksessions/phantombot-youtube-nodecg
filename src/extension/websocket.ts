@@ -35,10 +35,17 @@ ws.on('open', function open() {
 ws.on('message', function incoming(data: string) {
     try {
         let message = JSON.parse(data);
-        
+
+        // pong if pinged
+        if (message.ping !== undefined) {
+            ws.send(JSON.stringify({
+                pong: 'pong'
+            }));
+        }        
+
         // Check this message here before doing anything else.
         if (message.secondconnection !== undefined) {
-            if (message.secondconnection === true) {
+            if (message.secondconnection === 'true') {
                 nodecg.log.error('Only one youtube instance allowed. Please close any panels and try again.');
                 websocketClose();
             }
@@ -47,15 +54,17 @@ ws.on('message', function incoming(data: string) {
 
         // Check this message here before doing anything else.
         if (message.authresult !== undefined) {
-            if (message.authresult === false) {
+            if (message.authresult == 'false') {
                 nodecg.log.error('Failed to auth with the socket. (No/Incorrect Auth Code)');
                 websocketClose();
-            } else if (message.authresult === true && message.authtype === 'read') {
-                nodecg.log.error('Failed to auth with the socket. (Read only)');
-                websocketClose();
-            }else if (message.authresult === true && message.authtype === 'read/write') {
-                nodecg.log.info('Authenticated successfully with PhantombotYT Websocket');
-                websocket.value = true;
+            } else if (message.authresult == 'true') {
+                if (message.authtype == 'read') {
+                    nodecg.log.error('Failed to auth with the socket. (Read only)');
+                    websocketClose();
+                } else if (message.authtype == 'read/write') {
+                    nodecg.log.info('Authenticated successfully with PhantombotYT Websocket');
+                    websocket.value = true;
+                }
             }
             return;
         }

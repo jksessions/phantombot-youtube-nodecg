@@ -1,9 +1,9 @@
-import { createTheme } from '@material-ui/core/styles'
-import { lightBlue } from '@material-ui/core/colors';
+import {createTheme} from '@mui/material/styles';
+import {lightBlue} from '@mui/material/colors';
 
 export const theme = createTheme({
 	palette: {
+		mode: 'dark',
 		primary: lightBlue,
-		type: 'dark',
-	},
+	}
 });
