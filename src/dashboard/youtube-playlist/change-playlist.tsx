@@ -10,6 +10,8 @@ export const ChangePlaylist: React.FC = () => {
     const [value, setValue] = React.useState('');
     const [table, setTable] = React.useState<Array<string>>([]);
 
+    var playlist = '';
+
     document.addEventListener('dialog-opened', function() {
         nodecg.sendMessage('getPlaylists').then(result => {
             var keys = Object.keys(result);
@@ -17,7 +19,6 @@ export const ChangePlaylist: React.FC = () => {
             for(var i = 0; i < keys.length; i++) {
                 keys[i] = keys[i].replace(/^ytPlaylist_/, '');
             }
-            console.log(keys);
             setTable(keys);
         }).catch(error => {
             console.error(error);
@@ -25,8 +26,7 @@ export const ChangePlaylist: React.FC = () => {
     });
 
     document.addEventListener('dialog-confirmed', function() {
-        console.log(value);
-        nodecg.sendMessage('loadPlaylist', value);
+        nodecg.sendMessage('loadPlaylist', playlist);
         setValue('');
     })
 
@@ -36,6 +36,7 @@ export const ChangePlaylist: React.FC = () => {
 
     const handleChange = (event: SelectChangeEvent) => {
         setValue(event.target.value as string);
+        playlist = event.target.value;
     };
 
     return (

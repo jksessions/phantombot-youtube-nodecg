@@ -6,20 +6,32 @@ import {theme} from '../theme';
 import {ThemeProvider, TextField } from '@mui/material';
 
 export const AddSongToPlaylist: React.FC = () => {
-    const [value, setValue] = React.useState(null);
+    const [value, setValue] = React.useState('');
 
+    var song = "";
+    
     document.addEventListener('dialog-confirmed', function() {
-        nodecg.sendMessage('addSongToPlaylist', value);
-        setValue(null);
+        if (song.length > 0) {
+            console.log(song);
+            nodecg.sendMessage('addSongToPlaylist', song);
+        }
+        setValue('');
+        song = '';
     })
 
     document.addEventListener('dialog-dismissed', function() {
-        setValue(null);
+        setValue('');
+        song = '';
     })
+
+    const handleValueChange = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+        setValue(event.target.value);
+        song = event.target.value;
+    }
 
     return (
         <ThemeProvider theme={theme}>
-            <TextField fullWidth id="standard-basic" label="URL or Search term" variant="standard" value={value}/>
+            <TextField fullWidth id="standard-basic" label="URL or Search term" variant="standard" value={value} onChange={handleValueChange}/>
         </ThemeProvider>
     )
 }
