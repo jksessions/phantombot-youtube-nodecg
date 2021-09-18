@@ -3,8 +3,7 @@ import {render} from 'react-dom';
 import {theme} from '../theme';
 
 // material ui elements
-import { ThemeProvider } from '@mui/material/styles';
-import {Button, Grid, Slider, Stack, Divider} from '@mui/material';
+import {CssBaseline, ThemeProvider, Button, Grid, Slider, Stack, Divider} from '@mui/material';
 import {PlayArrow, Pause, SkipNext, Star, Delete, VolumeDown, VolumeUp, VolumeMute} from '@mui/icons-material';
 
 import {useReplicant} from '../use-replicant';
@@ -77,6 +76,7 @@ export const YoutubeControls: React.FC = () => {
 
     return (
         <ThemeProvider theme={theme}>
+            <CssBaseline />
             <Grid container justifyContent='center' spacing={1} wrap='nowrap' alignContent='stretch'>
                 <Grid item xs>
                     <Button variant="contained" fullWidth={true} onClick={() => setyoutubePlayPause(playPause())}>

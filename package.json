@@ -28,8 +28,40 @@
                 "title": "Youtube Controls",
                 "width": 3,
                 "file": "youtube-controls.html",
-                "headerColor": "#FF0000",
                 "workspace": "My Workspace"
+            }, 
+            {
+                "name": "youtube-playlist",
+                "title": "Youtube Playlist",
+                "width": 4,
+                "file": "youtube-playlist.html",
+                "workspace": "My Workspace"
+            },
+            {
+                "name": "add-song-to-playlist",
+                "title": "Add Song to Playlist",
+                "width": 4,
+                "file": "add-song-to-playlist.html",
+                "dialog": true,
+                "dialogButtons": [
+                    {
+                        "name": "save",
+                        "type": "confirm"
+                    }
+                ]
+            },
+            {
+                "name": "change-playlist",
+                "title": "Change Playlist",
+                "width": 4,
+                "file": "change-playlist.html",
+                "dialog": true,
+                "dialogButtons": [
+                    {
+                        "name": "save",
+                        "type": "confirm"
+                    }
+                ]
             }
         ]
     },
@@ -50,8 +82,7 @@
     "dependencies": {
         "@mui/material": "^5.0.0",
         "@mui/icons-material": "^5.0.0",
-        "@material-ui/styles": "4.11.4",
-        "@material-ui/lab": "^4.0.0-alpha.57",
+        "@mui/styles": "^5.0.0",
         "big-integer": "^1.6.48",
         "lodash": "^4.17.20",
         "lodash.clone": "^4.5.0",
