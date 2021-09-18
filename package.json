@@ -38,6 +38,13 @@
                 "workspace": "My Workspace"
             },
             {
+                "name": "youtube-queuelist",
+                "title": "Youtube Queuelist",
+                "width": 4,
+                "file": "youtube-queuelist.html",
+                "workspace": "My Workspace"
+            },
+            {
                 "name": "add-song-to-playlist",
                 "title": "Add Song to Playlist",
                 "width": 4,
@@ -51,10 +58,36 @@
                 ]
             },
             {
+                "name": "add-song-to-queue",
+                "title": "Add Song to Queue",
+                "width": 4,
+                "file": "add-song-to-queue.html",
+                "dialog": true,
+                "dialogButtons": [
+                    {
+                        "name": "save",
+                        "type": "confirm"
+                    }
+                ]
+            },
+            {
                 "name": "change-playlist",
                 "title": "Change Playlist",
                 "width": 4,
                 "file": "change-playlist.html",
+                "dialog": true,
+                "dialogButtons": [
+                    {
+                        "name": "save",
+                        "type": "confirm"
+                    }
+                ]
+            },
+            {
+                "name": "request-settings",
+                "title": "Request Settings",
+                "width": 2,
+                "file": "request-settings.html",
                 "dialog": true,
                 "dialogButtons": [
                     {
