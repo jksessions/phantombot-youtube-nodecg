@@ -16,7 +16,7 @@
         "compatibleRange": "^1.0.0",
         "graphics": [
             {
-                "file": "youtube.html",
+                "file": "youtube-player.html",
                 "width": 1920,
                 "height": 1080,
                 "singleInstance": true
@@ -132,7 +132,8 @@
         "ws": "^7.4.3",
         "parcel": "^2.0.0-rc.0",
         "@emotion/styled": "^11.3.0",
-        "@emotion/react": "^11.4.1"
+        "@emotion/react": "^11.4.1",
+        "react-player": "^2.9.0"
     },
     "devDependencies": {
         "@types/deep-equal": "^1.0.1",

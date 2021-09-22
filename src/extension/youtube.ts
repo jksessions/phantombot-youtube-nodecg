@@ -11,10 +11,10 @@ import { youtubeCurrentSong } from '../../types/youtubeCurrentSong';
 const youtube_Songlist = nodecg.Replicant<youtubeSonglist>('youtubeSonglist');
 const youtube_Playlist = nodecg.Replicant<youtubePlaylist>('youtubePlaylist');
 const youtube_Current_Song = nodecg.Replicant<youtubeCurrentSong>('youtubeCurrentSong');
-const youtubePlayPause = nodecg.Replicant<string>('youtubePlayPause');
+const youtubePlayPause = nodecg.Replicant<boolean>('youtubePlayPause');
 const youtubePlayState = nodecg.Replicant<number>('youtubePlayState');
 const youtubeVolume = nodecg.Replicant<number>('youtubeVolume');
-const youtubePlayerReady = nodecg.Replicant<boolean>('youtubePlayerReady');
+const youtubePlayerReady = nodecg.Replicant < boolean > ('youtubePlayerReady');
 
 // Add song to playlist function
 export function addSongToPlaylist(song_id?: string, requester?: string) {
@@ -73,6 +73,15 @@ youtubePlayState.on('change', (newValue, _oldValue) => {
     });
 })
 
+// listen for any youtube errors
+addListener('playerError', (e: any) => {
+    nodecg.log.error("Skipping song, YouTube has thrown an error: " + e);
+    sendToSocket({
+        status: {
+            errorcode: e
+        }
+    })
+});
 
 // Add a listener for the songrequest queue.
 addListener('songlist', (e: any) => {
@@ -93,15 +102,15 @@ addListener('play', (e: any) => {
         user: e.requester,
         duration: e.duration
     };
-    youtubePlayPause.value = 'play';
+    youtubePlayPause.value = true;
 });
 
 // Add a listener for the pause event.
 addListener('pause', (_e: any) => {
-    if(youtubePlayPause.value === 'play'){
-        youtubePlayPause.value = 'pause';
-    } else if(youtubePlayPause.value === 'pause'){
-        youtubePlayPause.value = 'play';
+    if(youtubePlayPause.value === true){
+        youtubePlayPause.value = false;
+    } else if(youtubePlayPause.value === false){
+        youtubePlayPause.value = true;
     }
 })
 

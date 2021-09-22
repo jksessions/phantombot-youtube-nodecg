@@ -12,7 +12,7 @@ import {youtubeDuration as YoutubeDuration} from '../../../types/youtubeDuration
 import {youtubeCurrentSong as YoutubeCurrentSong} from '../../../types/youtubeCurrentSong.d'
 
 export const YoutubeControls: React.FC = () => {
-    const [youtubePlayPause, setyoutubePlayPause] = useReplicant<any, string>('youtubePlayPause', 'pause');
+    const [youtubePlayPause, setyoutubePlayPause] = useReplicant<any, boolean>('youtubePlayPause', true);
     const [youtubeMute, setYoutubeMute] = useReplicant<any, boolean>('youtubeMute', false);
     const [youtubeVolume, setYoutubeVolume] = useReplicant<any, number>('youtubeVolume', 10);
     const [youtubeDuration, _setYoutubeDuration] = useReplicant<any, YoutubeDuration>('youtubeDuration', {current: 0, max: 60});
@@ -23,10 +23,10 @@ export const YoutubeControls: React.FC = () => {
     const [currentTime, setCurrentTime] = React.useState(0);
 
     React.useEffect(() => {
-        if (youtubePlayPause === 'pause' && playState) {
+        if (!youtubePlayPause && playState) {
             setPlayState(false);
         }
-        if (youtubePlayPause === 'play' && !playState) {
+        if (youtubePlayPause && !playState) {
             setPlayState(true);
         }
         if (canSlide == true) {
@@ -34,12 +34,12 @@ export const YoutubeControls: React.FC = () => {
         }
     });
 
-    function playPause(): string {
-        var play = 'play';
-        if (youtubePlayPause === 'pause') {
-            play = 'play';
-        } else if (youtubePlayPause === 'play') {
-            play = 'pause';
+    function playPause(): boolean {
+        var play = true;
+        if (youtubePlayPause) {
+            play = false;
+        } else if (youtubePlayPause) {
+            play = true;
         }
         return play;
     }
