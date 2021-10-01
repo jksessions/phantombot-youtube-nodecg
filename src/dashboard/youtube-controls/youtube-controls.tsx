@@ -130,6 +130,10 @@ export const YoutubeControls: React.FC = () => {
 		setYoutubeVolume(newValue as number);
 	};
 
+	const commitVolumeChange = (_event: Event | React.SyntheticEvent<Element, Event>, newValue: number | number[]) => {
+		nodecg.sendMessage('setVolume', newValue as number);
+	}
+
 	/**
 	 * Seeks the youtube player
 	 * @param _event unused variable
@@ -230,6 +234,7 @@ export const YoutubeControls: React.FC = () => {
 							aria-label="Volume"
 							value={youtubeVolume}
 							onChange={handleVolumeChange}
+							onChangeCommitted={commitVolumeChange}
 							valueLabelDisplay="auto"
 						/>
 						<VolumeUp />
@@ -249,7 +254,7 @@ export const YoutubeControls: React.FC = () => {
 						<Slider
 							min={0}
 							step={0.1}
-							aria-label="Volume"
+							aria-label="Time"
 							value={currentTime}
 							onChange={handleTimeChange}
 							onChangeCommitted={commitTimeChange}
