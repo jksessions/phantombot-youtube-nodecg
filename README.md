@@ -1,6 +1,3 @@
-<!--- 
-TODO: #5 update the README with the current functionallity
--->
 # phantombot-youtube-nodecg
  Implements the phantombot youtube player into nodecg
 
@@ -20,6 +17,7 @@ nodecg setup
 nodecg install jksessions/phantombot-youtube-nodecg
 cd bundles/phantombot-youtube-nodecg
 nodecg defaultconfig
+npm run bild
 ```
 
 Edit the config file created in the nodecg install directory `.cfg/phantombot-youtube-nodecg.json`.
@@ -31,11 +29,15 @@ Then your ready to start. Go the the install directory and run `nodecg start`.
 ### Replicants
 NodeCG has replicants. This bundle uses replicants in order to share data between files. Refer to the [NodeCG docs](https://nodecg.dev/docs/what-is-nodecg).
 
-The replicants open are: `youtubeSonglist`, `youtubePlaylist`, `youtubeCurrentSong`, `youtubePlayPause`, `youtubePlayState`, `youtubeVolume`, `youtubePlayerReady`, `youtubeMute` and `youtubeDuration`
+The replicants open are: `websocket`, `youtubeSonglist`, `youtubePlaylist`, `youtubeCurrentSong`, `youtubePlayPause`, `youtubePlayState`, `youtubeVolume`, `youtubePlayerReady`, `youtubeMute` and `youtubeDuration`
+
+#### `websocket` 
+##### Is the phantombot websocket connected
+Returns `true` or `false`
 
 #### `youtubeSonglist` Request List
 ##### Whatevers in the up next queue
-Sends the following array
+
 ```json
 [{
  "song":"A5UXA4fKSME",
@@ -88,7 +90,7 @@ Sends the following
 
 #### `youtubePlayPause`
 ##### Is the player playing or paused
-sends a `play` or `pause` when playing or paused respectivly
+Returns `true` or `false`
 
 #### `youtubePlayState`
 ##### Players playstate
@@ -99,7 +101,7 @@ Returns an integer
 1 - Playing
 2 - Paused
 3 - Buffering
-5 - Video Cued
+5 - Video Cued // Not used in current implementation
 ```
 Refer to the [Youtube player API Reference](https://developers.google.com/youtube/iframe_api_reference#Playback_status)
 
@@ -128,15 +130,12 @@ returns the following
 `max` is the amount of time (seconds) that the track plays for.
 
 ### Messages
-##### Messages are getting a major rework and will not work as documented
 
 The bundle also uses NodeCG's `sendMessage()` function in order to forward data onto the websocket.
 
-Currently, the bundle listens for messages on the `youtubeCommand` there are multiple different messages.
+Straight commands without arguments are `'skipSong'`, `'stealSong'`, `'unstealSong'` and `'shufflePlaylist'`.
 
-Straight commands without arguments are `'skipSong'`, `'stealSong'`, `'unstealSong'` and `'shufflePlaylist'`. They are sent straight like that.
-
-Command with variables are `'setVolume'`, `'updateSong'`, `'removeSongFromPlaylist'`, `'addSongToPlaylist'`, `'removeSongFromRequest'`, `'addSongToQueue'`, `'dbQuery'` and `'dbUpdate'`. These are sent as `{command:'theCommandInQuestion', ...}`.
+Command with variables are `'setVolume'`, `'updateSong'`, `'removeSongFromPlaylist'`, `'addSongToPlaylist'`, `'removeSongFromRequest'`, `'addSongToQueue'`, `'dbQuery'` and `'dbUpdate'`.
 
 #### `'skipSong'`
 ##### Skip the song currently playing
@@ -152,69 +151,33 @@ Command with variables are `'setVolume'`, `'updateSong'`, `'removeSongFromPlayli
 
 #### `'setVolume'`
 ##### Lets the bot know of the volume change
-Sent as the following
-```
-{
- command: 'setVolume',
- volume: 42
-}
-```
-`volume` is sent as an integer between `0-100`
+`value` integer between `0-100`
 
 #### `'updateSong'`
 ##### Changes the song to the one requested
-Sent as the following
-```
-{
- command: 'updateSong',
- song: '19YPbJl_hVs'
-}
-```
-`song` is the youtube id of the track cued.
+`value` is the youtube id of the track cued.
 
 #### `'removeSongFromPlaylist'`
 ##### Removes a given song from the playlist
-Sent as the following
-```
-{
- command: 'removeSongFromPlaylist',
- song: '19YPbJl_hVs'
-}
-```
-`song` is the youtube id of the track cued.
+`value` is the youtube id of the track cued.
 
 #### `'addSongToPlaylist'`
 ##### Adds a given song from to playlist
-Sent as the following
-```
-{
- command: 'addSongToPlaylist',
- song: '19YPbJl_hVs'
-}
-```
-`song` is the youtube id of the track cued.
+`value` is the youtube id of the track cued.
 
 #### `'removeSongFromRequest'`
 ##### Removes a given song from the Queue
-Sent as the following
-```
-{
- command: 'removeSongFromRequest',
- song: '19YPbJl_hVs'
-}
-```
-`song` is the youtube id of the track cued.
+`value` is the youtube id of the track cued.
 
 #### `'addSongToQueue'`
 ##### Adds a given song to the Queue
-Sent as the following
-```
-{
- command: 'addSongToQueue',
- song: '19YPbJl_hVs'
-}
-```
-`song` is the youtube id of the track cued.
+`value` is the youtube id of the track cued.
+
+#### `'getPlaylists'`
+##### returns all the playlists in the database
+
+#### `'ytSettings'`
+##### returns all the settings in the database
 
 #### `'dbQuery'`
 ##### Checks the database for data
