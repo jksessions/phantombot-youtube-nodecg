@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import ReactPlayer from "react-player/youtube";
 
 import { useReplicant } from "../use-replicant";
+import { useListenFor } from "../use-listen-for";
 
 import { youtubeCurrentSong } from "../../../types/youtubeCurrentSong.d";
 
@@ -52,6 +53,10 @@ export const YoutubePlayer: React.FC = () => {
 		rel: 0,
 		disablekb: 1,
 	};
+
+	useListenFor('websocketActive', () => {
+		youtubePlayerReady.value = playerReady;
+	})
 
 	function onEnded() {
 		youtubePlayState.value = 0;
