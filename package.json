@@ -24,6 +24,13 @@
         ],
         "dashboardPanels": [
             {
+                "name": "websocket-settings",
+                "title": "Websocket Settings",
+                "width": 3,
+                "file": "websocket-settings.html",
+                "workspace": "Settings"
+            },
+            {
                 "name": "youtube-controls",
                 "title": "Youtube Controls",
                 "width": 3,
