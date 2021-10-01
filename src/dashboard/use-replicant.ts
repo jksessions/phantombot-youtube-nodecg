@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
-import clone from 'lodash.clone';
-import {ReplicantOptions} from 'nodecg/types/server';
+import { useEffect, useState } from "react";
+import clone from "lodash.clone";
+import { ReplicantOptions } from "nodecg/types/server";
 
 /**
  * Subscribe to a replicant, returns tuple of the replicant value and `setValue` function.
@@ -10,7 +10,11 @@ import {ReplicantOptions} from 'nodecg/types/server';
  * @param initialValue Initial value to pass to `useState` function
  * @param options Options object.  Currently supports the optional `namespace` option
  */
-export const useReplicant = <T, U>(replicantName: string, initialValue: U, options?: ReplicantOptions<T> & {namespace?: string}, ): [T | U, (newValue: T) => void] => {
+export const useReplicant = <T, U>(
+	replicantName: string,
+	initialValue: U,
+	options?: ReplicantOptions<T> & { namespace?: string }
+): [T | U, (newValue: T) => void] => {
 	const [value, updateValue] = useState<T | U>(initialValue);
 
 	const replicantOptions = options && {
@@ -20,11 +24,7 @@ export const useReplicant = <T, U>(replicantName: string, initialValue: U, optio
 	};
 	const replicant =
 		options && options.namespace
-			? nodecg.Replicant(
-					replicantName,
-					options.namespace,
-					replicantOptions,
-			  )
+			? nodecg.Replicant(replicantName, options.namespace, replicantOptions)
 			: nodecg.Replicant(replicantName, replicantOptions);
 
 	const changeHandler = (newValue: T): void => {
@@ -38,9 +38,9 @@ export const useReplicant = <T, U>(replicantName: string, initialValue: U, optio
 	};
 
 	useEffect(() => {
-		replicant.on('change', changeHandler);
+		replicant.on("change", changeHandler);
 		return () => {
-			replicant.removeListener('change', changeHandler);
+			replicant.removeListener("change", changeHandler);
 		};
 	}, [replicant]);
 

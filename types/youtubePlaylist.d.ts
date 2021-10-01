@@ -1,10 +1,10 @@
 export interface youtubePlaylistItem {
-    duration: string;
-    song: string;
-    title: string;
+	duration: string;
+	song: string;
+	title: string;
 }
 
 export interface youtubePlaylist {
-    playlist: Array<youtubePlaylistItem>;
-    playlistname: string;
+	playlist: Array<youtubePlaylistItem>;
+	playlistname: string;
 }
