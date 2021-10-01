@@ -107,7 +107,7 @@
         "watch:graphics": "trash graphics && parcel watch src/graphics/*.html --dist-dir graphics --public-url ./",
         "watch:extension": "tsc -b ./src/extension/tsconfig.json --watch",
         "schema-types": "trash src/types/schemas && nodecg schema-types",
-        "start:solo": "node ../.. --bundlesEnabled=nodecg-csgo-manager",
+        "start:solo": "node ../.. --bundlesEnabled=phantombot-youtube-nodecg",
         "start": "node ../..",
         "lint": "eslint ./src/**/*.{ts,tsx}",
         "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix"

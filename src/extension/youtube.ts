@@ -155,7 +155,6 @@ addListener("pause", (_e: any) => {
  */
 addListener("setvolume", (e: any) => {
 	youtubeVolume.value = e.setvolume;
-	nodecg.log.info("Volume: " + e.setvolume);
 });
 
 /**
