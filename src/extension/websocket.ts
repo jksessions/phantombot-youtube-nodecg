@@ -4,10 +4,10 @@ import WebSocket from "ws";
 
 const websocket = nodecg.Replicant<boolean>("websocket");
 const youtubePlayerReady = nodecg.Replicant<boolean>("youtubePlayerReady");
+const websocketAddress = nodecg.Replicant<string>("websocketAddress");
+const authToken = nodecg.Replicant<string>("websocketToken");
 
 var listeners: any = [],
-	websocketAddress = nodecg.bundleConfig.webSocketURL,
-	authToken = nodecg.bundleConfig.webauthToken,
 	connection: WebSocket,
 	websocketActive = false;
 
@@ -16,13 +16,13 @@ var listeners: any = [],
  * * adds event listeners for the websocet connection
  */
 function websocketOpen() {
-	const ws = new WebSocket(websocketAddress);
+	const ws = new WebSocket(websocketAddress.value);
 
 	ws.on("open", function open() {
 		connection = ws;
 		websocketActive = true;
 		nodecg.log.info("Phantombot Youtube Websocket Connected");
-		ws.send(JSON.stringify({ authenticate: authToken }));
+		ws.send(JSON.stringify({ authenticate: authToken.value }));
 	});
 
 	ws.on("message", function incoming(data: string) {
@@ -65,6 +65,7 @@ function websocketOpen() {
 							"Authenticated successfully with PhantombotYT Websocket"
 						);
 						websocket.value = true;
+						nodecg.sendMessage("websocketStateChanged");
 					}
 				}
 				return;
@@ -116,6 +117,7 @@ function websocketOpen() {
 
 	ws.on("close", function close() {
 		nodecg.log.error("Youtube Websocket Closed");
+		nodecg.sendMessage("websocketStateChanged");
 		websocket.value = false;
 		websocketActive = false;
 	});

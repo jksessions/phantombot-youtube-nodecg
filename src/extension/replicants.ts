@@ -35,3 +35,11 @@ nodecg.Replicant<youtubeDuration>("youtubeDuration", {
 		max: 60,
 	},
 });
+nodecg.Replicant<string>("websocketAddress", {
+	defaultValue: nodecg.bundleConfig.webSocketURL,
+	persistent: false
+});
+nodecg.Replicant<string>("websocketToken", {
+	defaultValue: nodecg.bundleConfig.webauthToken,
+	persistent: false
+})
