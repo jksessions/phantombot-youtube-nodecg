@@ -44,9 +44,6 @@ export const YoutubePlayer: React.FC = () => {
 	);
 
 	const mainBody = document.getElementById("dash-youtube-player")!;
-	/**
-	 * TODO: #4 implement the reconnect functionality to the websocket and check for player readyness on reconnect
-	 */
 	var playerReady = false;
 
 	const opts = {
@@ -66,7 +63,7 @@ export const YoutubePlayer: React.FC = () => {
 	 * Lets Phantombot know the song is finished and ready for a new song
 	 * * sets PlayState to `0`
 	 */
-function onEnded() {
+	function onEnded() {
 		youtubePlayState.value = 0;
 	}
 
