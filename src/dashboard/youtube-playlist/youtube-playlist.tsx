@@ -27,11 +27,12 @@ import {
 	youtubePlaylistItem,
 } from "../../../types/youtubePlaylist.d";
 
+/**
+ * shows the playlist panel in the NodeCG panel
+ * @returns Playlist panel
+ */
 export const Playlist: React.FC = () => {
-	const [youtubePlaylist, _setYoutubePlaylist] = useReplicant<
-		any,
-		youtubePlaylist
-	>("youtubePlaylist", {
+	const [youtubePlaylist, _setYoutubePlaylist] = useReplicant<any, youtubePlaylist>("youtubePlaylist", {
 		playlistname: "NULL",
 		playlist: [{ song: "null", title: "null", duration: "null" }],
 	});
@@ -39,18 +40,33 @@ export const Playlist: React.FC = () => {
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	const [page, setPage] = React.useState(0);
 
+	/**
+	 * Shuffles the playlist
+	 */
 	function shuffle() {
 		nodecg.sendMessage("shufflePlaylist");
 	}
 
+	/**
+	 * Plays a selected song
+	 * @param song youtube ID of the selected song
+	 */
 	function playSong(song: string) {
 		nodecg.sendMessage("updateSong", song);
 	}
 
+	/**
+	 * Removes a selected song from the playlist
+	 * @param song youtube ID of the selected song
+	 */
 	function removeSong(song: string) {
 		nodecg.sendMessage("removeSongFromPlaylist", song);
 	}
 
+	/**
+	 * Changes number of rows shown in the playlist
+	 * @param event number of rows as an event `event.target.value`
+	 */
 	const handleChangeRowsPerPage = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -58,6 +74,11 @@ export const Playlist: React.FC = () => {
 		setPage(0);
 	};
 
+	/**
+	 * Changes page number
+	 * @param _event unused variable
+	 * @param newPage page number
+	 */
 	const handleChangePage = (_event: unknown, newPage: number) => {
 		setPage(newPage);
 	};

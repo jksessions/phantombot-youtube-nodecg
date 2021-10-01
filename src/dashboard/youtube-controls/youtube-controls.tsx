@@ -28,6 +28,10 @@ import { useReplicant } from "../use-replicant";
 import { youtubeDuration as YoutubeDuration } from "../../../types/youtubeDuration.d";
 import { youtubeCurrentSong as YoutubeCurrentSong } from "../../../types/youtubeCurrentSong.d";
 
+/**
+ * Controls for player
+ * @returns Youtube player control panel and info
+ */
 export const YoutubeControls: React.FC = () => {
 	const [youtubePlayPause, setyoutubePlayPause] = useReplicant<any, boolean>(
 		"youtubePlayPause",
@@ -41,14 +45,8 @@ export const YoutubeControls: React.FC = () => {
 		"youtubeVolume",
 		10
 	);
-	const [youtubeDuration, _setYoutubeDuration] = useReplicant<
-		any,
-		YoutubeDuration
-	>("youtubeDuration", { current: 0, max: 60 });
-	const [youtubeCurrentSong, _setyoutubeCurrentSong] = useReplicant<
-		any,
-		YoutubeCurrentSong
-	>("youtubeCurrentSong", {
+	const [youtubeDuration, _setYoutubeDuration] = useReplicant<any, YoutubeDuration>("youtubeDuration", { current: 0, max: 60 });
+	const [youtubeCurrentSong, _setyoutubeCurrentSong] = useReplicant<any, YoutubeCurrentSong>("youtubeCurrentSong", {
 		duration: "NULL",
 		id: "NULL",
 		title: "NULL",
@@ -71,16 +69,25 @@ export const YoutubeControls: React.FC = () => {
 		}
 	});
 
+	/**
+	 * Checks `youtubePlayPause` and returns the opposite
+	 * @returns opposite of `youtubePlayPause`
+	 */
 	function playPause(): boolean {
 		var play = true;
 		if (youtubePlayPause) {
 			play = false;
-		} else if (youtubePlayPause) {
+		} else if (!youtubePlayPause) {
 			play = true;
 		}
 		return play;
 	}
 
+	/**
+	 * Converts seconds into a readable format
+	 * @param value time in seconds
+	 * @returns readable time value formatted as `1:00`
+	 */
 	function convertTime(value: number) {
 		return (
 			Math.floor(value / 60) +
@@ -93,28 +100,52 @@ export const YoutubeControls: React.FC = () => {
 		);
 	}
 
+	/**
+	 * Sends the skip song command to Phantombot
+	 */
 	function skipSong() {
 		nodecg.sendMessage("skipSong");
 	}
 
+	/**
+	 * Adds the current song to the playlist
+	 */
 	function stealSong() {
 		nodecg.sendMessage("stealSong");
 	}
 
+	/**
+	 * Removes current song from the playlist
+	 */
 	function unstealSong() {
 		nodecg.sendMessage("unstealSong");
 	}
 
+	/**
+	 * Sets the volume of the youtube player
+	 * @param _event unused variable
+	 * @param newValue youtube volume in a number between 0-100
+	 */
 	const handleVolumeChange = (_event: Event, newValue: number | number[]) => {
 		setYoutubeVolume(newValue as number);
 	};
 
+	/**
+	 * Seeks the youtube player
+	 * @param _event unused variable
+	 * @param newValue time value in seconds
+	 */
 	const handleTimeChange = (_event: Event, newValue: number | number[]) => {
 		setCanSlide(false);
 		nodecg.sendMessage("youtubeSeek", newValue as number);
 		setCurrentTime(newValue as number);
 	};
-	canSlide;
+	
+	/**
+	 * Allows the slider to move again after letting go
+	 * @param _event unused variable
+	 * @param _value unused variable
+	 */
 	const commitTimeChange = (
 		_event: React.SyntheticEvent | Event,
 		_value: number | Array<number>

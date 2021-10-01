@@ -1,3 +1,6 @@
+<!--- 
+TODO: #5 update the README with the current functionallity
+-->
 # phantombot-youtube-nodecg
  Implements the phantombot youtube player into nodecg
 

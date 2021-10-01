@@ -17,7 +17,11 @@ const youtubePlayState = nodecg.Replicant<number>("youtubePlayState");
 const youtubeVolume = nodecg.Replicant<number>("youtubeVolume");
 const youtubePlayerReady = nodecg.Replicant<boolean>("youtubePlayerReady");
 
-// Add song to playlist function
+/** 
+ * * Add song to playlist function
+ * @param song_id 
+ * @param requester 
+ */
 export function addSongToPlaylist(song_id?: string, requester?: string) {
 	// Update the data.
 	sendToSocket({
@@ -27,7 +31,12 @@ export function addSongToPlaylist(song_id?: string, requester?: string) {
 	});
 }
 
-// dbQuery function
+/**
+ * * dbQuery function
+ * @param callback_id 
+ * @param table 
+ * @param callback 
+ */
 export function dbQuery(callback_id: string, table: string, callback: object) {
 	addListener(callback_id, callback);
 
@@ -38,6 +47,14 @@ export function dbQuery(callback_id: string, table: string, callback: object) {
 	});
 }
 
+/**
+ * * dbUpdate function
+ * @param callback_id 
+ * @param table 
+ * @param key 
+ * @param value 
+ * @param callback 
+ */
 export function dbUpdate(
 	callback_id: string,
 	table: string,
@@ -60,7 +77,9 @@ export function dbUpdate(
 	});
 }
 
-// check if youtube player is ready
+/**
+ * * check if youtube player is ready
+ */
 youtubePlayerReady.on("change", (newValue, _oldValue) => {
 	sendToSocket({
 		status: {
@@ -70,7 +89,9 @@ youtubePlayerReady.on("change", (newValue, _oldValue) => {
 	nodecg.log.info("Player Ready: " + newValue);
 });
 
-// let phantombot know of the current state of the youtube player
+/**
+ * * let phantombot know of the current state of the youtube player
+ */
 youtubePlayState.on("change", (newValue, _oldValue) => {
 	sendToSocket({
 		status: {
@@ -79,7 +100,9 @@ youtubePlayState.on("change", (newValue, _oldValue) => {
 	});
 });
 
-// listen for any youtube errors
+/**
+ * * listen for any youtube errors
+ */
 addListener("playerError", (e: any) => {
 	nodecg.log.error("Skipping song, YouTube has thrown an error: " + e);
 	sendToSocket({
@@ -89,17 +112,23 @@ addListener("playerError", (e: any) => {
 	});
 });
 
-// Add a listener for the songrequest queue.
+/**
+ * * Add a listener for the songrequest queue.
+ */
 addListener("songlist", (e: any) => {
 	youtube_Songlist.value = e.songlist;
 });
 
-// Add a listener for the main playlist.
+/**
+ * * Add a listener for the main playlist.
+ */
 addListener("playlist", (e: any) => {
 	youtube_Playlist.value = e;
 });
 
-// Add a listener for the play event.
+/**
+ * * Add a listener for the play event.
+ */
 addListener("play", (e: any) => {
 	youtube_Current_Song.value = {
 		id: e.play,
@@ -110,7 +139,9 @@ addListener("play", (e: any) => {
 	youtubePlayPause.value = true;
 });
 
-// Add a listener for the pause event.
+/**
+ * * Add a listener for the pause event.
+ */
 addListener("pause", (_e: any) => {
 	if (youtubePlayPause.value === true) {
 		youtubePlayPause.value = false;
@@ -119,38 +150,51 @@ addListener("pause", (_e: any) => {
 	}
 });
 
+/** 
+ * * Add a listener for the setvolume event.
+ */
 addListener("setvolume", (e: any) => {
 	youtubeVolume.value = e.setvolume;
 	nodecg.log.info("Volume: " + e.setvolume);
 });
 
-// listen for skipSong command
+/**
+ * * listen for skipSong command
+ */
 nodecg.listenFor("skipSong", (_value, _ack) => {
 	sendToSocket({
 		command: "skipsong",
 	});
 });
 
-// listen for stealSong command
+/**
+ * * listen for stealSong command
+ */
 nodecg.listenFor("stealSong", (_value, _ack) => {
 	addSongToPlaylist();
 });
 
-// listen for unstealSong command
+/**
+ * * listen for unstealSong command
+ */
 nodecg.listenFor("unstealSong", (_value, _ack) => {
 	sendToSocket({
 		command: "deletecurrent",
 	});
 });
 
-// listen for shufflePlaylist command
+/**
+ * * listen for shufflePlaylist command
+ */
 nodecg.listenFor("shufflePlaylist", (_value, _ack) => {
 	sendToSocket({
 		command: "togglerandom",
 	});
 });
 
-// listen for loadPlaylist command
+/**
+ * * listen for loadPlaylist command
+ */
 nodecg.listenFor("loadPlaylist", (value, _ack) => {
 	sendToSocket({
 		command: "loadpl",
@@ -158,7 +202,9 @@ nodecg.listenFor("loadPlaylist", (value, _ack) => {
 	});
 });
 
-// listen for setVolume command
+/**
+ * * listen for setVolume command
+ */
 nodecg.listenFor("setVolume", (value, _ack) => {
 	sendToSocket({
 		status: {
@@ -167,7 +213,9 @@ nodecg.listenFor("setVolume", (value, _ack) => {
 	});
 });
 
-// listen for updateSong command
+/**
+ * * listen for updateSong command
+ */
 nodecg.listenFor("updateSong", (value, _ack) => {
 	sendToSocket({
 		status: {
@@ -176,26 +224,34 @@ nodecg.listenFor("updateSong", (value, _ack) => {
 	});
 });
 
-// listen for removeSongFromPlaylist command
+/**
+ * * listen for removeSongFromPlaylist command
+ */
 nodecg.listenFor("removeSongFromPlaylist", (value, _ack) => {
 	sendToSocket({
 		deletepl: value,
 	});
 });
 
-// listen for addSongToPlaylist command
+/**
+ * * listen for addSongToPlaylist command
+ */
 nodecg.listenFor("addSongToPlaylist", (value, _ack) => {
 	addSongToPlaylist(value);
 });
 
-// listen for removeSongFromRequest command
+/**
+ * * listen for removeSongFromRequest command
+ */
 nodecg.listenFor("removeSongFromRequest", (value, _ack) => {
 	sendToSocket({
 		deletesr: value,
 	});
 });
 
-// listen for addSongToQueue command
+/**
+ * * listen for addSongToQueue command
+ */
 nodecg.listenFor("addSongToQueue", (value, _ack) => {
 	sendToSocket({
 		command: "songrequest",
@@ -203,7 +259,9 @@ nodecg.listenFor("addSongToQueue", (value, _ack) => {
 	});
 });
 
-// listen for ytSettings command
+/**
+ * * listen for ytSettings command
+ */
 nodecg.listenFor("ytSettings", (_value, ack) => {
 	dbQuery("yt_settings", "ytSettings", (e: any) => {
 		if (ack && !ack.handled) {
@@ -212,7 +270,9 @@ nodecg.listenFor("ytSettings", (_value, ack) => {
 	});
 });
 
-// listen for getPlaylists command
+/**
+ * * listen for getPlaylists command
+ */
 nodecg.listenFor("getPlaylists", (_value, ack) => {
 	dbQuery("get_playlists", "yt_playlists_registry", (e: any) => {
 		if (ack && !ack.handled) {
@@ -221,7 +281,9 @@ nodecg.listenFor("getPlaylists", (_value, ack) => {
 	});
 });
 
-// listen for dbQuery command
+/**
+ * * listen for dbQuery command
+ */
 nodecg.listenFor("dbQuery", (value, ack) => {
 	dbQuery(value.callback_id, value.table, (e: any) => {
 		if (ack && !ack.handled) {
@@ -230,7 +292,9 @@ nodecg.listenFor("dbQuery", (value, ack) => {
 	});
 });
 
-// listen for dbUpdate command
+/**
+ * * listen for dbUpdate command
+ */
 nodecg.listenFor("dbUpdate", (value, _ack) => {
 	dbUpdate(value.callback_id, value.table, value.key, value.value);
 });

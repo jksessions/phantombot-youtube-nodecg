@@ -27,6 +27,10 @@ import {
 	youtubeSonglistItem,
 } from "../../../types/youtubeSonglist.d";
 
+/**
+ * shows the queuelist panel in the NodeCG panel
+ * @returns Queuelist panel
+ */
 export const Queuelist: React.FC = () => {
 	const [youtubeSonglist, _setYoutubeSonglist] = useReplicant<
 		any,
@@ -38,15 +42,27 @@ export const Queuelist: React.FC = () => {
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 	const [page, setPage] = React.useState(0);
 
+	/**
+	 * Plays a selected song
+	 * @param song youtube ID of the selected song
+	 */
 	function playSong(song: string) {
 		nodecg.sendMessage("updateSong", song);
 		nodecg.sendMessage("removeSongFromRequest", song);
 	}
 
+	/**
+	 * Removes a selected song from the queue
+	 * @param song youtube ID of the selected song
+	 */
 	function removeSong(song: string) {
 		nodecg.sendMessage("removeSongFromRequest", song);
 	}
 
+	/**
+	 * Changes number of rows shown in the queue
+	 * @param event number of rows as an event `event.target.value`
+	 */
 	const handleChangeRowsPerPage = (
 		event: React.ChangeEvent<HTMLInputElement>
 	) => {
@@ -54,6 +70,11 @@ export const Queuelist: React.FC = () => {
 		setPage(0);
 	};
 
+	/**
+	 * Changes page number
+	 * @param _event unused variable
+	 * @param newPage page number
+	 */
 	const handleChangePage = (_event: unknown, newPage: number) => {
 		setPage(newPage);
 	};

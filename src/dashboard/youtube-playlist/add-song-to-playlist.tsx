@@ -5,6 +5,10 @@ import { theme } from "../theme";
 // material ui elements
 import { ThemeProvider, TextField } from "@mui/material";
 
+/**
+ * Add songs to the current playlist
+ * @returns Panel for adding songs to the playlist
+ */
 export const AddSongToPlaylist: React.FC = () => {
 	const [value, setValue] = React.useState("");
 
@@ -24,6 +28,10 @@ export const AddSongToPlaylist: React.FC = () => {
 		song = "";
 	});
 
+	/**
+	 * changes values of variables as the text input changes
+	 * @param event data from text input
+	 */
 	const handleValueChange = (
 		event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {

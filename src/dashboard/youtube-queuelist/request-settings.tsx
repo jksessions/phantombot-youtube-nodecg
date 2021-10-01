@@ -73,6 +73,10 @@ export const RequestSettings: React.FC = () => {
 		}
 	});
 
+	/**
+	 * changes values of variables as the text input changes
+	 * @param event data from text input
+	 */
 	const handleDJNameChange = (
 		event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {
@@ -80,6 +84,10 @@ export const RequestSettings: React.FC = () => {
 		DJName = event.target.value;
 	};
 
+	/**
+	 * changes values of variables as the text input changes
+	 * @param event data from text input
+	 */
 	const handleMaxSongsChange = (
 		event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {
@@ -87,6 +95,10 @@ export const RequestSettings: React.FC = () => {
 		maxSongs = event.target.value;
 	};
 
+	/**
+	 * changes values of variables as the text input changes
+	 * @param event data from text input
+	 */
 	const handleMaxDurationChange = (
 		event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {
@@ -94,6 +106,10 @@ export const RequestSettings: React.FC = () => {
 		maxDuration = event.target.value;
 	};
 
+	/**
+	 * changes values of variables as the text input changes
+	 * @param event data from text input
+	 */
 	const handleVoteCountChange = (
 		event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {
