@@ -99,7 +99,7 @@
         ]
     },
     "scripts": {
-        "build": "npm run build:extension && npm run build:dashboard",
+        "build": "npm run build:extension && npm run build:dashboard && npm run build:graphics",
         "build:extension": "trash extension && tsc -b ./src/extension/tsconfig.json",
         "build:dashboard": "trash dashboard && parcel build src/dashboard/*.html --dist-dir dashboard --public-url ./ --no-content-hash",
         "build:graphics": "trash graphics && parcel build src/graphics/*.html --dist-dir graphics --public-url ./ --no-content-hash",
