@@ -11,6 +11,10 @@ var listeners: any = [],
 	connection: WebSocket,
 	websocketActive = false;
 
+/**
+ * * opens a new websocket connection
+ * * adds event listeners for the websocet connection
+ */
 function websocketOpen() {
 	const ws = new WebSocket(websocketAddress);
 
@@ -123,6 +127,10 @@ function websocketOpen() {
 
 websocketOpen();
 
+/**
+ * * sends data to the websocket connection
+ * @param data data to be sent to websocket
+ */
 export function sendToSocket(data: any) {
 	if (websocket.value == true) {
 		try {
@@ -133,10 +141,19 @@ export function sendToSocket(data: any) {
 	}
 }
 
-export function addListener(listener_id: any, listener: any) {
+/**
+ * * Add listener to the array
+ * * Run a function for a given `listener_id`
+ * @param listener_id ID to listen for in websocket data
+ * @param listener what to run when a listener is satisfied
+ */
+export function addListener(listener_id: any, listener: Object) {
 	listeners[listener_id] = listener;
 }
 
+/**
+ * * Closes the websocket connection
+ */
 function websocketClose() {
 	connection.close();
 	youtubePlayerReady.value = false;

@@ -1,6 +1,5 @@
 import * as nodecgApiContext from "./util/nodecg-api-context";
 
-// Import types
 import { youtubeSonglist } from "../../types/youtubeSonglist";
 import { youtubePlaylist } from "../../types/youtubePlaylist";
 import { youtubeCurrentSong } from "../../types/youtubeCurrentSong";

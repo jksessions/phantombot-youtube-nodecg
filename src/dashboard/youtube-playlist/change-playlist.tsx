@@ -6,6 +6,10 @@ import { theme } from "../theme";
 import { ThemeProvider, InputLabel, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
+/**
+ * Changes the selected playlist of phantombot
+ * @returns Change playlist dialog
+ */
 export const ChangePlaylist: React.FC = () => {
 	const [value, setValue] = React.useState("");
 	const [table, setTable] = React.useState<Array<string>>([]);
@@ -37,6 +41,10 @@ export const ChangePlaylist: React.FC = () => {
 		setValue("");
 	});
 
+	/**
+	 * changes values of variables as the selection input changes
+	 * @param event data from selection
+	 */
 	const handleChange = (event: SelectChangeEvent) => {
 		setValue(event.target.value as string);
 		playlist = event.target.value;

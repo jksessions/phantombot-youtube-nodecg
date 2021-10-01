@@ -43,6 +43,9 @@ export const YoutubePlayer: React.FC = () => {
 	);
 
 	const mainBody = document.getElementById("dash-youtube-player")!;
+	/**
+	 * TODO: #4 implement the reconnect functionality to the websocket and check for player readyness on reconnect
+	 */
 	var playerReady = false;
 
 	const opts = {
@@ -53,24 +56,46 @@ export const YoutubePlayer: React.FC = () => {
 		disablekb: 1,
 	};
 
+	/**
+	 * Lets Phantombot know the song is finished and ready for a new song
+	 * * sets PlayState to `0`
+	 */
 	function onEnded() {
 		youtubePlayState.value = 0;
 	}
 
+	/**
+	 * Lets Phantombot know the player is buffering
+	 * * sets PlayState to `3`
+	 */
 	function onBuffer() {
 		youtubePlayState.value = 3;
 	}
 
+	/**
+	 * Lets Phantombot know the player is playing
+	 * * sets PlayState to `1`
+	 * * sets PlayPause to `true`
+	 */
 	function onPlay() {
 		youtubePlayState.value = 1;
 		setYoutubePlayPause(true);
 	}
 
+	/**
+	 * Lets Phantombot know the player is paused
+	 * * sets PlayState to `2`
+	 * * sets PlayPause to `false`
+	 */
 	function onPause() {
 		youtubePlayState.value = 2;
 		setYoutubePlayPause(false);
 	}
 
+	/**
+	 * sends elapsed time across the NodeCG bundle
+	 * @param event current time elapsed of the player in seconds
+	 */
 	function onProgress(event: any) {
 		youtubeDuration.value = {
 			current: event.playedSeconds,
@@ -78,16 +103,29 @@ export const YoutubePlayer: React.FC = () => {
 		};
 	}
 
+	/**
+	 * Lets Phantombot know the player is unstarted and ready to play.
+	 * Starts the player going
+	 * * sets PlayState to `-1`
+	 * * sets PlayPause to `true`
+	 */
 	function onUnstarted() {
 		youtubePlayState.value = -1;
 		setYoutubePlayPause(true);
 	}
 
+	/**
+	 * Lets Phantombot know the player is initilised.
+	 */
 	function onReady() {
 		youtubePlayerReady.value = true;
 		playerReady = true;
 	}
 
+	/**
+	 * Updates the duration of the song across the NodeCg bundle
+	 * @param event duration of the song in seconds
+	 */
 	function onDuration(event: number) {
 		duration = event;
 	}

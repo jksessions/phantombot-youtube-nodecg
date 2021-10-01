@@ -5,6 +5,10 @@ import { theme } from "../theme";
 // material ui elements
 import { ThemeProvider, TextField } from "@mui/material";
 
+/**
+ * Add songs to the Queue
+ * @returns Panel for adding songs to the Queue
+ */
 export const AddSongToQueue: React.FC = () => {
 	const [value, setValue] = React.useState("");
 
@@ -23,6 +27,10 @@ export const AddSongToQueue: React.FC = () => {
 		song = "";
 	});
 
+	/**
+	 * changes values of variables as the text input changes
+	 * @param event data from text input
+	 */
 	const handleValueChange = (
 		event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
 	) => {

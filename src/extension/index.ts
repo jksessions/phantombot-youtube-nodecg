@@ -3,12 +3,18 @@
 import { NodeCG } from "nodecg/types/server";
 import * as nodecgApiContext from "./util/nodecg-api-context";
 
+/**
+ * * Initialise required subscripts
+ */
 async function init(): Promise<void> {
 	require("./replicants");
 	require("./websocket");
 	require("./youtube");
 }
 
+/**
+ * * Main code block for the bundle
+ */
 module.exports = (nodecg: NodeCG): void => {
 	nodecgApiContext.set(nodecg);
 
