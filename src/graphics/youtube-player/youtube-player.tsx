@@ -3,6 +3,7 @@ import { render } from "react-dom";
 import ReactPlayer from "react-player/youtube";
 
 import { useReplicant } from "../use-replicant";
+import { useListenFor } from "../use-listen-for";
 
 import { youtubeCurrentSong } from "../../../types/youtubeCurrentSong.d";
 
@@ -56,11 +57,16 @@ export const YoutubePlayer: React.FC = () => {
 		disablekb: 1,
 	};
 
+	useListenFor('websocketActive', () => {
+		youtubePlayerReady.value = playerReady;
+	})
+
+
 	/**
 	 * Lets Phantombot know the song is finished and ready for a new song
 	 * * sets PlayState to `0`
 	 */
-	function onEnded() {
+function onEnded() {
 		youtubePlayState.value = 0;
 	}
 
